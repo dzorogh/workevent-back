@@ -1,24 +1,45 @@
 <?php
 
 return [
-    'dashboard-stats-overview' => [
-        'total_events' => 'Всего мероприятий',
-        'total_events_description' => 'Все мероприятия в системе',
-        'upcoming_events' => 'Предстоящие мероприятия',
-        'upcoming_events_description' => 'Мероприятия с сегодняшнего дня',
-        'companies' => 'Компании',
-        'companies_description' => 'Зарегистрированные компании',
-        'speakers' => 'Спикеры',
-        'speakers_description' => 'Зарегистрированные спикеры',
+    'stats' => [
+        'events' => [
+            'total' => 'Всего мероприятий',
+            'total_description' => 'Общее количество мероприятий',
+            'upcoming' => 'Предстоящие мероприятия',
+            'upcoming_description' => 'Мероприятия в будущем',
+        ],
+        'companies' => [
+            'total' => 'Компании',
+            'description' => 'Зарегистрированные компании',
+        ],
+        'speakers' => [
+            'total' => 'Спикеры',
+            'description' => 'Зарегистрированные спикеры',
+        ],
     ],
-    
-    'upcoming-events' => [
-        'title' => 'Предстоящие мероприятия',
-        'view' => 'Просмотр',
-    ],
-    
+
     'recent-companies' => [
-        'title' => 'Недавно добавленные компании',
+        'heading' => 'Недавно добавленные компании',
+        'columns' => [
+            'name' => 'Название компании',
+            'inn' => 'ИНН',
+            'events' => 'Мероприятия',
+            'created_at' => 'Дата создания',
+        ],
+    ],
+
+    'upcoming-events' => [
+        'heading' => 'Ближайшие мероприятия',
+        'columns' => [
+            'title' => 'Название',
+            'start_date' => 'Дата начала',
+            'format' => 'Формат',
+            'city' => 'Город',
+            'industry' => 'Отрасль',
+        ],
+    ],
+
+    'actions' => [
         'view' => 'Просмотр',
     ],
 ]; 

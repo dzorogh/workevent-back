@@ -14,28 +14,34 @@ class DashboardStatsOverview extends StatsOverviewWidget
     {
         return [
             Stat::make(
-                __('filament-widgets.dashboard-stats-overview.total_events'), 
+                __('filament-widgets.stats.events.total'), 
                 Event::count()
             )
-                ->description(__('filament-widgets.dashboard-stats-overview.total_events_description'))
+                ->description(__('filament-widgets.stats.events.total_description'))
                 ->descriptionIcon('heroicon-m-calendar')
                 ->color('primary'),
 
             Stat::make(
-                __('filament-widgets.dashboard-stats-overview.upcoming_events'), 
+                __('filament-widgets.stats.events.upcoming'), 
                 Event::where('start_date', '>=', now())->count()
             )
-                ->description(__('filament-widgets.dashboard-stats-overview.upcoming_events_description'))
+                ->description(__('filament-widgets.stats.events.upcoming_description'))
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
 
-            Stat::make('Companies', Company::count())
-                ->description('Registered companies')
+            Stat::make(
+                __('filament-widgets.stats.companies.total'), 
+                Company::count()
+            )
+                ->description(__('filament-widgets.stats.companies.description'))
                 ->descriptionIcon('heroicon-m-building-office')
                 ->color('warning'),
 
-            Stat::make('Speakers', Speaker::count())
-                ->description('Registered speakers')
+            Stat::make(
+                __('filament-widgets.stats.speakers.total'), 
+                Speaker::count()
+            )
+                ->description(__('filament-widgets.stats.speakers.description'))
                 ->descriptionIcon('heroicon-m-user-group')
                 ->color('info'),
         ];

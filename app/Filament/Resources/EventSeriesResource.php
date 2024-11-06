@@ -44,13 +44,13 @@ class EventSeriesResource extends Resource
                             ->columnSpanFull(),
 
                         Forms\Components\Placeholder::make('created_at')
-                            ->label(__('filament::resources.timestamps.created_at'))
+                            ->label(__('filament-resources.timestamps.created_at'))
                             ->content(fn (?EventSeries $record): string =>
                             $record ? $record->created_at->diffForHumans() : '-'
                             ),
 
                         Forms\Components\Placeholder::make('updated_at')
-                            ->label(__('filament::resources.timestamps.updated_at'))
+                            ->label(__('filament-resources.timestamps.updated_at'))
                             ->content(fn (?EventSeries $record): string =>
                             $record ? $record->updated_at->diffForHumans() : '-'
                             ),
@@ -74,13 +74,13 @@ class EventSeriesResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label(__('filament::resources.timestamps.created_at'))
+                    ->label(__('filament-resources.timestamps.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label(__('filament::resources.timestamps.updated_at'))
+                    ->label(__('filament-resources.timestamps.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

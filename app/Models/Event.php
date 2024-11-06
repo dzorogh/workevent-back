@@ -5,23 +5,33 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Event extends Model
+class Event extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+
     protected $fillable = [
-        'series_id',
         'title',
+        'series_id',
         'start_date',
         'end_date',
         'format',
         'website',
         'city_id',
         'main_industry_id',
+        'is_priority',
+        'sort_order',
+        'description',
     ];
 
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'is_priority' => 'boolean',
+        'sort_order' => 'integer',
     ];
 
     public function series(): BelongsTo
@@ -41,7 +51,7 @@ class Event extends Model
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(EventTag::class, 'event_tag', 'tag_id', 'event_id');
+        return $this->belongsToMany(EventTag::class, 'event_tag', 'event_id', 'tag_id');
     }
 
     public function speakers(): BelongsToMany
@@ -56,5 +66,31 @@ class Event extends Model
         return $this->belongsToMany(Company::class, 'company_event')
             ->withPivot('participation_type')
             ->withTimestamps();
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('cover')
+            ->singleFile()
+            ->registerMediaConversions(function (Media $media) {
+                $this->addMediaConversion('thumb')
+                    ->width(400)
+                    ->height(300);
+
+                $this->addMediaConversion('preview')
+                    ->width(800)
+                    ->height(600);
+            });
+
+        $this->addMediaCollection('gallery')
+            ->registerMediaConversions(function (Media $media) {
+                $this->addMediaConversion('thumb')
+                    ->width(400)
+                    ->height(300);
+
+                $this->addMediaConversion('preview')
+                    ->width(800)
+                    ->height(600);
+            });
     }
 }

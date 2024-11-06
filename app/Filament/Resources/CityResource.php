@@ -56,7 +56,7 @@ class CityResource extends Resource
                                     ),
 
                                 Forms\Components\Placeholder::make('created_at')
-                                    ->label(__('filament::resources.timestamps.created_at'))
+                                    ->label(__('filament-resources.timestamps.created_at'))
                                     ->content(fn (?City $record): string =>
                                         $record ? $record->created_at->diffForHumans() : '-'
                                     ),

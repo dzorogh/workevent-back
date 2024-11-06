@@ -9,6 +9,13 @@ use Filament\Resources\Pages\EditRecord;
 class EditEvent extends EditRecord
 {
     protected static string $resource = EventResource::class;
+    
+    public function getTitle(): string 
+    {
+        return __('filament-resources.events.actions.edit.title', [
+            'label' => $this->record->title,
+        ]);
+    }
 
     protected function getHeaderActions(): array
     {
@@ -16,4 +23,5 @@ class EditEvent extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+    
 }

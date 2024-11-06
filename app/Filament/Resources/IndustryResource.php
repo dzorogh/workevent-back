@@ -54,7 +54,7 @@ class IndustryResource extends Resource
                                     ),
 
                                 Forms\Components\Placeholder::make('created_at')
-                                    ->label(__('filament::resources.timestamps.created_at'))
+                                    ->label(__('filament-resources.timestamps.created_at'))
                                     ->content(fn (?Industry $record): string =>
                                     $record ? $record->created_at->diffForHumans() : '-'
                                     ),

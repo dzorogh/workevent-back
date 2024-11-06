@@ -21,26 +21,28 @@ class RecentCompaniesWidget extends BaseWidget
                     ->latest()
                     ->withCount('events')
             )
-            ->heading('Recently Added Companies')
+            ->heading(__('filament-widgets.recent-companies.heading'))
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Company Name')
+                    ->label(__('filament-widgets.recent-companies.columns.name'))
                     ->searchable(),
                     
                 Tables\Columns\TextColumn::make('inn')
-                    ->label('INN')
+                    ->label(__('filament-widgets.recent-companies.columns.inn'))
                     ->searchable(),
                     
                 Tables\Columns\TextColumn::make('events_count')
-                    ->label('Events')
+                    ->label(__('filament-widgets.recent-companies.columns.events'))
                     ->sortable(),
                     
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('filament-widgets.recent-companies.columns.created_at'))
                     ->dateTime()
                     ->sortable(),
             ])
             ->actions([
                 Tables\Actions\Action::make('view')
+                    ->label(__('filament-widgets.actions.view'))
                     ->url(fn (Company $record): string => route('filament.admin.resources.companies.edit', $record))
                     ->icon('heroicon-m-eye'),
             ])
