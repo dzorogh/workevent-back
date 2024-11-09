@@ -9,10 +9,8 @@ use App\DTOs\EventSearchParameters;
 
 class EventSearchService
 {
-    public function search(SearchEventsRequest $request): array
+    public function search(EventSearchParameters $searchParams): array
     {
-        $searchParams = EventSearchParameters::fromArray($request->validated());
-
         $query = $this->buildSearchQuery($searchParams);
         $events = $this->paginateResults($query, $searchParams->perPage);
         $facets = $query->raw()['facetDistribution'] ?? [];

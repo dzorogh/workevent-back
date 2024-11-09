@@ -18,7 +18,6 @@ readonly class EventSearchParameters
     public static function fromArray(array $params): self
     {
         return new self(
-            query: $params['query'] ?? null,
             format: $params['format'] ?? null,
             cityId: $params['city_id'] ?? null,
             industryId: $params['industry_id'] ?? null,
