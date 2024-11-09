@@ -61,6 +61,7 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups([
                 'events' => __('filament-navigation.groups.events'),
                 'people' => __('filament-navigation.groups.people'),
+                'settings' => __('filament-navigation.groups.settings'),
                 'organizations' => __('filament-navigation.groups.organizations'),
                 'references' => __('filament-navigation.groups.references'),
             ]);

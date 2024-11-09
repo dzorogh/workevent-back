@@ -223,4 +223,20 @@ return [
             'events_count' => 'Мероприятий',
         ],
     ],
+
+    'filter-presets' => [
+        'label' => 'Подборка фильтров',
+        'plural_label' => 'Подборки фильтров',
+        
+        'sections' => [
+            'filters' => 'Фильтры',
+        ],
+        
+        'fields' => [
+            'title' => 'Название',
+            'slug' => 'URL-метка',
+            'is_active' => 'Активна',
+            'sort_order' => 'Порядок сортировки',
+        ],
+    ],
 ];

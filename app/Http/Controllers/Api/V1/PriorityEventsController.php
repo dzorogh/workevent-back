@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Event;
 use App\Http\Resources\EventResource;
+use App\Models\Event;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PriorityEventsController extends Controller

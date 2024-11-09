@@ -6,5 +6,6 @@ return [
         'people' => 'Люди',
         'organizations' => 'Организации',
         'references' => 'Справочники',
+        'settings' => 'Настройки',
     ],
-]; 
+];
