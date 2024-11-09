@@ -13,11 +13,6 @@ readonly class EventSearchParameters
         public ?string $dateTo = null,
         public int $page = 1,
         public int $perPage = 12,
-        public array $facets = [
-            'city_id',
-            'format',
-            'industry_id'
-        ]
     ) {}
 
     public static function fromArray(array $params): self

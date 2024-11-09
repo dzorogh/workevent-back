@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\EventController;
 use App\Http\Controllers\Api\V1\PresetController;
 use App\Http\Controllers\Api\V1\PriorityEventsController;
+use App\Http\Controllers\Api\V1\IndustryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,6 @@ Route::prefix('v1')->group(function () {
 
     Route::get('priority-events', [PriorityEventsController::class, 'index']);
     Route::get('filter-presets', [PresetController::class, 'index']);
+
+    Route::get('industries', [IndustryController::class, 'index']);
 });

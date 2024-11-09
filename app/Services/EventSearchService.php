@@ -26,17 +26,38 @@ class EventSearchService
     private function buildSearchQuery(EventSearchParameters $params): \Laravel\Scout\Builder
     {
         return Event::search($params->query, function (Indexes $meiliSearch, ?string $query, array $options) use ($params) {
+            $filter = $this->buildMeiliSearchFilter($params);
+
             return $meiliSearch->search($query, [
-                'facets' => $params->facets,
+                'facets' => ['*'],
                 'page' => $params->page,
                 'hitsPerPage' => $params->perPage,
+                'filter' => $filter,
             ]);
-        })
-            ->when($params->format, fn($query) => $query->where('format', $params->format))
-            ->when($params->cityId, fn($query) => $query->where('city_id', $params->cityId))
-            ->when($params->industryId, fn($query) => $query->where('industry_id', $params->industryId))
-            ->when($params->dateFrom, fn($query) => $query->where('start_date', '>=', $params->dateFrom))
-            ->when($params->dateTo, fn($query) => $query->where('end_date', '<=', $params->dateTo));
+        });
+    }
+
+    private function buildMeiliSearchFilter(EventSearchParameters $params): array
+    {
+        $filters = [];
+
+        if ($params->format) {
+            $filters[] = "format = '{$params->format}'";
+        }
+        if ($params->cityId) {
+            $filters[] = "city_id = {$params->cityId}";
+        }
+        if ($params->industryId) {
+            $filters[] = "industry_id = {$params->industryId}";
+        }
+        if ($params->dateFrom) {
+            $filters[] = "start_date >= {$params->dateFrom}";
+        }
+        if ($params->dateTo) {
+            $filters[] = "end_date <= {$params->dateTo}";
+        }
+
+        return $filters;
     }
 
     private function paginateResults($query, int $perPage)
