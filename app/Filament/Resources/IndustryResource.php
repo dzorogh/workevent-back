@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Notifications\Notification;
 
 class IndustryResource extends Resource
 {
@@ -41,22 +42,18 @@ class IndustryResource extends Resource
                         Forms\Components\TextInput::make('title')
                             ->label(__('filament-resources.industries.fields.title'))
                             ->required()
-                            ->maxLength(255)
-                            ->unique(ignoreRecord: true)
-                            ->live(onBlur: true),
+                            ->maxLength(255),
 
                         Forms\Components\Grid::make()
                             ->schema([
                                 Forms\Components\Placeholder::make('main_events_count')
                                     ->label(__('filament-resources.industries.fields.main_events_count'))
-                                    ->content(fn (?Industry $record): string =>
-                                    $record ? $record->mainEvents()->count() : '0'
+                                    ->content(fn(?Industry $record): string => $record ? $record->mainEvents()->count() : '0'
                                     ),
 
                                 Forms\Components\Placeholder::make('created_at')
                                     ->label(__('filament-resources.timestamps.created_at'))
-                                    ->content(fn (?Industry $record): string =>
-                                    $record ? $record->created_at->diffForHumans() : '-'
+                                    ->content(fn(?Industry $record): string => $record ? $record->created_at->diffForHumans() : '-'
                                     ),
                             ])
                             ->columns(2)
@@ -93,12 +90,12 @@ class IndustryResource extends Resource
             ->filters([
                 Tables\Filters\Filter::make('has_events')
                     ->label(__('filament-resources.industries.filters.has_events'))
-                    ->query(fn ($query) => $query->has('mainEvents'))
+                    ->query(fn($query) => $query->has('mainEvents'))
                     ->toggle(),
 
                 Tables\Filters\Filter::make('no_events')
                     ->label(__('filament-resources.industries.filters.no_events'))
-                    ->query(fn ($query) => $query->doesntHave('mainEvents'))
+                    ->query(fn($query) => $query->doesntHave('mainEvents'))
                     ->toggle(),
             ])
             ->actions([
@@ -106,7 +103,7 @@ class IndustryResource extends Resource
                 Tables\Actions\DeleteAction::make()
                     ->before(function (Industry $record) {
                         if ($record->mainEvents()->count() > 0) {
-                            Filament\Notifications\Notification::make()
+                            Notification::make()
                                 ->warning()
                                 ->title('Cannot delete industry')
                                 ->body('This industry has associated events.')
@@ -122,7 +119,7 @@ class IndustryResource extends Resource
                         ->before(function ($records) {
                             foreach ($records as $record) {
                                 if ($record->mainEvents()->count() > 0) {
-                                    Filament\Notifications\Notification::make()
+                                    Notification::make()
                                         ->warning()
                                         ->title('Cannot delete industries')
                                         ->body('Some selected industries have associated events.')
