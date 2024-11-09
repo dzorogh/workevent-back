@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\HasMetadataContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -11,10 +12,11 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Enums\EventFormat;
 use Laravel\Scout\Searchable;
+use App\Traits\HasMetadata;
 
-class Event extends Model implements HasMedia
+class Event extends Model implements HasMedia, HasMetadataContract
 {
-    use InteractsWithMedia, Searchable;
+    use InteractsWithMedia, Searchable, HasMetadata;
 
     protected $fillable = [
         'title',

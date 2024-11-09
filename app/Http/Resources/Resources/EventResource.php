@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Resources;
 
+use App\Traits\HasMetadataResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EventResource extends JsonResource
 {
+
     public function toArray(Request $request): array
     {
         return [
@@ -41,6 +43,7 @@ class EventResource extends JsonResource
                 'title' => $tag->title,
             ]),
             'sort_order' => $this->sort_order,
+            'metadata' => new MetadataResource($this->metadata),
         ];
     }
 }

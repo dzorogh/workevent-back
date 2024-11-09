@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -20,9 +20,9 @@ class PresetDetailResource extends JsonResource
             'slug' => $this->slug,
             'filters' => $this->filters,
             'events' => new SearchEventsResource(
-                $this->searchResults['events'], 
+                $this->searchResults['events'],
                 $this->searchResults['facets']
             ),
         ];
     }
-} 
+}

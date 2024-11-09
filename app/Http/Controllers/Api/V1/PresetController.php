@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\DTOs\EventSearchParameters;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PresetResource;
-use App\Http\Resources\PresetDetailResource;
+use App\Http\Resources\Resources\PresetDetailResource;
+use App\Http\Resources\Resources\PresetResource;
 use App\Models\Preset;
 use App\Services\EventSearchService;
-use App\DTOs\EventSearchParameters;
-use App\Http\Requests\Api\V1\SearchEventsRequest;
 
 class PresetController extends Controller
 {

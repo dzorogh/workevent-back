@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\EventController;
+use App\Http\Controllers\Api\V1\MetadataController;
 use App\Http\Controllers\Api\V1\PresetController;
 use App\Http\Controllers\Api\V1\PriorityEventsController;
 use App\Http\Controllers\Api\V1\IndustryController;
@@ -23,4 +24,6 @@ Route::prefix('v1')->group(function () {
     Route::get('industries', [IndustryController::class, 'index']);
 
     Route::get('cities', [CityController::class, 'index']);
+
+    Route::get('metadata', [MetadataController::class, 'show']);
 });

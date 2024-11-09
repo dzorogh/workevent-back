@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\EventResource;
+use App\Http\Resources\Resources\EventResource;
 use App\Models\Event;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
