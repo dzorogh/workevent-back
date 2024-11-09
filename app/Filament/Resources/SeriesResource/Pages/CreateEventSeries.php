@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\EventSeriesResource\Pages;
 
-use App\Filament\Resources\EventSeriesResource;
+use App\Filament\Resources\SeriesResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateEventSeries extends CreateRecord
 {
-    protected static string $resource = EventSeriesResource::class;
+    protected static string $resource = SeriesResource::class;
 }

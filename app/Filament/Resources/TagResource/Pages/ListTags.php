@@ -6,7 +6,7 @@ use App\Filament\Resources\EventTagResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListEventTags extends ListRecords
+class ListTags extends ListRecords
 {
     protected static string $resource = EventTagResource::class;
 

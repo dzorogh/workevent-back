@@ -11,7 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class EventSeriesResource extends Resource
+class SeriesResource extends Resource
 {
     protected static ?string $model = Series::class;
 

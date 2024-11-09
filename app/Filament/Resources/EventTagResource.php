@@ -138,9 +138,9 @@ class EventTagResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEventTags::route('/'),
-            'create' => Pages\CreateEventTag::route('/create'),
-            'edit' => Pages\EditEventTag::route('/{record}/edit'),
+            'index' => Pages\ListTags::route('/'),
+            'create' => Pages\CreateTag::route('/create'),
+            'edit' => Pages\EditTag::route('/{record}/edit'),
         ];
     }
 }

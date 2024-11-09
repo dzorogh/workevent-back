@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources\EventSeriesResource\Pages;
 
-use App\Filament\Resources\EventSeriesResource;
+use App\Filament\Resources\SeriesResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
 class ListEventSeries extends ListRecords
 {
-    protected static string $resource = EventSeriesResource::class;
+    protected static string $resource = SeriesResource::class;
 
     protected function getHeaderActions(): array
     {

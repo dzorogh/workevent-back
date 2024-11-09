@@ -161,7 +161,7 @@ class EventResource extends Resource
                             ->label(__('filament-resources.event-tags.fields.title'))
                             ->required()
                             ->maxLength(255)
-                            ->unique('event_tags', 'title'),
+                            ->unique('tags', 'title'),
                     ])
                     ->createOptionModalHeading(__('filament-resources.event-tags.actions.create.heading'))
                     ->placeholder(__('filament-resources.events.placeholders.tags')),
