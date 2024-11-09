@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\PresetController;
 use App\Http\Controllers\Api\V1\PriorityEventsController;
 use App\Http\Controllers\Api\V1\IndustryController;
 use App\Http\Controllers\Api\V1\CityController;
+use App\Http\Controllers\Api\V1\EventFormatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,6 @@ Route::prefix('v1')->group(function () {
     Route::get('cities', [CityController::class, 'index']);
 
     Route::get('metadata', [MetadataController::class, 'show']);
+
+    Route::get('event-formats', [EventFormatController::class, 'index']);
 });
