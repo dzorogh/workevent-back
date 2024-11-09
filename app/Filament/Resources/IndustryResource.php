@@ -4,12 +4,16 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\IndustryResource\Pages;
 use App\Models\Industry;
+use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\ReorderAction;
+use Filament\Tables\Contracts\HasTable;
 
 class IndustryResource extends Resource
 {
@@ -48,7 +52,7 @@ class IndustryResource extends Resource
                             ->schema([
                                 Forms\Components\Placeholder::make('main_events_count')
                                     ->label(__('filament-resources.industries.fields.main_events_count'))
-                                    ->content(fn(?Industry $record): string => $record ? $record->mainEvents()->count() : '0'
+                                    ->content(fn(?Industry $record): string => $record ? $record->events()->count() : '0'
                                     ),
 
                                 Forms\Components\Placeholder::make('created_at')
@@ -62,6 +66,9 @@ class IndustryResource extends Resource
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -102,7 +109,7 @@ class IndustryResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
                     ->before(function (Industry $record) {
-                        if ($record->mainEvents()->count() > 0) {
+                        if ($record->events()->count() > 0) {
                             Notification::make()
                                 ->warning()
                                 ->title('Cannot delete industry')
@@ -130,7 +137,9 @@ class IndustryResource extends Resource
                             }
                         }),
                 ]),
-            ]);
+            ])
+            ->reorderable('sort_order')
+            ->defaultSort('sort_order');
     }
 
     public static function getRelations(): array

@@ -133,4 +133,10 @@ class Event extends Model implements HasMedia
     {
         return 'events';
     }
+
+    public function scopeActive($query)
+    {
+        return $query
+            ->where('end_date', '>=', now());
+    }
 }

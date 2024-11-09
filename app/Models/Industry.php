@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Industry extends Model
 {
-    protected $fillable = ['title'];
+    protected $fillable = ['title', 'sort_order'];
 
-    public function mainEvents(): HasMany
+    public function events(): HasMany
     {
         return $this->hasMany(Event::class);
     }
