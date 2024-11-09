@@ -129,8 +129,7 @@ class EventResource extends Resource
                             ->label(__('filament-resources.events.fields.end_date'))
                             ->native(false)
                             ->displayFormat('d.m.Y')
-                            ->after('start_date')
-                            ->rules(['after:start_date'])
+                            ->afterOrEqual('start_date')
                             ->closeOnDateSelection(),
                     ])
                     ->columns(2),
