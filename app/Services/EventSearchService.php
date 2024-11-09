@@ -2,25 +2,19 @@
 
 namespace App\Services;
 
+use App\Http\Requests\Api\V1\SearchEventsRequest;
 use App\Models\Event;
 use Meilisearch\Endpoints\Indexes;
+use App\DTOs\EventSearchParameters;
 
 class EventSearchService
 {
-    private const DEFAULT_PER_PAGE = 4;
-    private const FACET_ATTRIBUTES = [
-        'city_id',
-        'format',
-        'industry_id'
-    ];
-
-    public function search(array $params): array
+    public function search(SearchEventsRequest $request): array
     {
-        $perPage = $params['per_page'] ?? self::DEFAULT_PER_PAGE;
-        $page = $params['page'] ?? 1;
+        $searchParams = EventSearchParameters::fromArray($request->validated());
 
-        $query = $this->buildSearchQuery($params, $page, $perPage);
-        $events = $this->paginateResults($query, $perPage);
+        $query = $this->buildSearchQuery($searchParams);
+        $events = $this->paginateResults($query, $searchParams->perPage);
         $facets = $query->raw()['facetDistribution'] ?? [];
 
         return [
@@ -29,24 +23,24 @@ class EventSearchService
         ];
     }
 
-    private function buildSearchQuery(array $params, int $page, int $perPage)
+    private function buildSearchQuery(EventSearchParameters $params): \Laravel\Scout\Builder
     {
-        return Event::search($params['query'] ?? null, function (Indexes $meiliSearch, ?string $query, array $options) use ($page, $perPage) {
+        return Event::search($params->query, function (Indexes $meiliSearch, ?string $query, array $options) use ($params) {
             return $meiliSearch->search($query, [
-                'facets' => self::FACET_ATTRIBUTES,
-                'page' => $page,
-                'hitsPerPage' => $perPage,
+                'facets' => $params->facets,
+                'page' => $params->page,
+                'hitsPerPage' => $params->perPage,
             ]);
         })
-            ->when(isset($params['format']), fn($query) => $query->where('format', $params['format']))
-            ->when(isset($params['city_id']), fn($query) => $query->where('city_id', $params['city_id']))
-            ->when(isset($params['industry_id']), fn($query) => $query->where('industry_id', $params['industry_id']))
-            ->when(isset($params['date_from']), fn($query) => $query->where('start_date', '>=', $params['date_from']))
-            ->when(isset($params['date_to']), fn($query) => $query->where('end_date', '<=', $params['date_to']));
+            ->when($params->format, fn($query) => $query->where('format', $params->format))
+            ->when($params->cityId, fn($query) => $query->where('city_id', $params->cityId))
+            ->when($params->industryId, fn($query) => $query->where('industry_id', $params->industryId))
+            ->when($params->dateFrom, fn($query) => $query->where('start_date', '>=', $params->dateFrom))
+            ->when($params->dateTo, fn($query) => $query->where('end_date', '<=', $params->dateTo));
     }
 
     private function paginateResults($query, int $perPage)
     {
         return $query->paginate($perPage);
     }
-} 
+}
