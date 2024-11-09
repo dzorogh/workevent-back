@@ -15,9 +15,10 @@ class IndustryController extends Controller
             ->whereHas('events', function ($query) {
                 $query->active();  // Assuming you have an active scope
             })
+            ->withCount('events')
             ->orderBy('sort_order')
             ->get();
 
         return IndustryResource::collection($industries);
     }
-} 
+}
