@@ -9,8 +9,12 @@
         "dedoc/scramble": "^0.11.24",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
+        "http-interop/http-factory-guzzle": "^1.2",
         "laravel/framework": "^11.9",
+        "laravel/sanctum": "^4.0",
+        "laravel/scout": "^10.11",
         "laravel/tinker": "^2.9",
+        "meilisearch/meilisearch-php": "^1.11",
         "ysfkaya/filament-phone-input": "^3.1"
     },
     "require-dev": {

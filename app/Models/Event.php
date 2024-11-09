@@ -10,10 +10,11 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Enums\EventFormat;
+use Laravel\Scout\Searchable;
 
 class Event extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use InteractsWithMedia, Searchable;
 
     protected $fillable = [
         'title',
@@ -108,5 +109,28 @@ class Event extends Model implements HasMedia
                     ->width(800)
                     ->height(600);
             });
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'format' => $this->format->value,
+            'format_label' => $this->format->getLabel(),
+            'start_date' => $this->start_date->format('Y-m-d'),
+            'end_date' => $this->end_date->format('Y-m-d'),
+            'city_id' => $this->city_id,
+            'city_title' => $this->city->title,
+            'industry_id' => $this->industry_id,
+            'industry_title' => $this->industry->title,
+            'is_priority' => $this->is_priority,
+        ];
+    }
+
+    public function searchableAs(): string
+    {
+        return 'events';
     }
 }

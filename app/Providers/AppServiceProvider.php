@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
+use Meilisearch\Client;
 
 class AppServiceProvider extends ServiceProvider
 {
