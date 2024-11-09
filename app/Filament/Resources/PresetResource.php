@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\FilterPresetResource\Pages;
-use App\Models\FilterPreset;
+use App\Filament\Resources\PresetResource\Pages;
+use App\Models\Preset;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use App\Models\City;
 use App\Enums\EventFormat;
 use App\Models\Industry;
 
-class FilterPresetResource extends Resource
+class PresetResource extends Resource
 {
-    protected static ?string $model = FilterPreset::class;
+    protected static ?string $model = Preset::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-funnel';
 
@@ -23,12 +23,12 @@ class FilterPresetResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('filament-resources.filter-presets.label');
+        return __('filament-resources.presets.label');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('filament-resources.filter-presets.plural_label');
+        return __('filament-resources.presets.plural_label');
     }
 
     public static function form(Form $form): Form
@@ -36,16 +36,16 @@ class FilterPresetResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
-                    ->label(__('filament-resources.filter-presets.fields.title'))
+                    ->label(__('filament-resources.presets.fields.title'))
                     ->required()
                     ->maxLength(255),
 
                 Forms\Components\TextInput::make('slug')
-                    ->label(__('filament-resources.filter-presets.fields.slug'))
+                    ->label(__('filament-resources.presets.fields.slug'))
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
 
-                Forms\Components\Section::make(__('filament-resources.filter-presets.sections.filters'))
+                Forms\Components\Section::make(__('filament-resources.presets.sections.filters'))
                     ->schema([
                         Forms\Components\Select::make('filters.format')
                             ->label(__('filament-resources.events.fields.format'))
@@ -62,11 +62,11 @@ class FilterPresetResource extends Resource
                     ->columns(3),
 
                 Forms\Components\Toggle::make('is_active')
-                    ->label(__('filament-resources.filter-presets.fields.is_active'))
+                    ->label(__('filament-resources.presets.fields.is_active'))
                     ->default(true),
 
                 Forms\Components\TextInput::make('sort_order')
-                    ->label(__('filament-resources.filter-presets.fields.sort_order'))
+                    ->label(__('filament-resources.presets.fields.sort_order'))
                     ->numeric()
                     ->default(0),
             ]);
@@ -79,27 +79,27 @@ class FilterPresetResource extends Resource
             ->reorderable('sort_order')
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->label(__('filament-resources.filter-presets.fields.title'))
+                    ->label(__('filament-resources.presets.fields.title'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('slug')
-                    ->label(__('filament-resources.filter-presets.fields.slug'))
+                    ->label(__('filament-resources.presets.fields.slug'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label(__('filament-resources.filter-presets.fields.is_active'))
+                    ->label(__('filament-resources.presets.fields.is_active'))
                     ->boolean()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('sort_order')
-                    ->label(__('filament-resources.filter-presets.fields.sort_order'))
+                    ->label(__('filament-resources.presets.fields.sort_order'))
                     ->sortable(),
             ])
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_active')
-                    ->label(__('filament-resources.filter-presets.fields.is_active')),
+                    ->label(__('filament-resources.presets.fields.is_active')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -115,9 +115,9 @@ class FilterPresetResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFilterPresets::route('/'),
-            'create' => Pages\CreateFilterPreset::route('/create'),
-            'edit' => Pages\EditFilterPreset::route('/{record}/edit'),
+            'index' => Pages\ListPresets::route('/'),
+            'create' => Pages\CreatePreset::route('/create'),
+            'edit' => Pages\EditPreset::route('/{record}/edit'),
         ];
     }
 }

@@ -224,14 +224,14 @@ return [
         ],
     ],
 
-    'filter-presets' => [
-        'label' => 'Подборка фильтров',
-        'plural_label' => 'Подборки фильтров',
-        
+    'presets' => [
+        'label' => 'Подборка',
+        'plural_label' => 'Подборки',
+
         'sections' => [
             'filters' => 'Фильтры',
         ],
-        
+
         'fields' => [
             'title' => 'Название',
             'slug' => 'URL-метка',

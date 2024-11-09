@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\EventController;
-use App\Http\Controllers\Api\V1\FilterPresetController;
+use App\Http\Controllers\Api\V1\PresetController;
 use App\Http\Controllers\Api\V1\PriorityEventsController;
 use App\Http\Controllers\Api\V1\SearchController;
 use Illuminate\Http\Request;
@@ -18,5 +18,5 @@ Route::prefix('v1')->group(function () {
 
 
     Route::get('priority-events', [PriorityEventsController::class, 'index']);
-    Route::get('filter-presets', [FilterPresetController::class, 'index']);
+    Route::get('filter-presets', [PresetController::class, 'index']);
 });

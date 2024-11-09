@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class FilterPreset extends Model
+class Preset extends Model
 {
     protected $fillable = [
         'title',
