@@ -10,7 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class EventTagResource extends Resource
+class TagResource extends Resource
 {
     protected static ?string $model = Tag::class;
 
