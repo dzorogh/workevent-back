@@ -15,9 +15,9 @@ class PriorityEventsController extends Controller
             ->where('is_priority', true)
             ->orderBy('sort_order', 'desc')
             ->orderBy('start_date', 'asc')
-            ->with(['city', 'mainIndustry', 'tags'])
+            ->with(['city', 'industry', 'tags'])
             ->get();
 
         return EventResource::collection($events);
     }
-} 
+}

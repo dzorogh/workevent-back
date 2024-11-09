@@ -38,8 +38,8 @@ class EventsRelationManager extends RelationManager
                     ->searchable()
                     ->preload(),
 
-                Forms\Components\Select::make('main_industry_id')
-                    ->relationship('mainIndustry', 'title')
+                Forms\Components\Select::make('industry_id')
+                    ->relationship('industry', 'title')
                     ->required()
                     ->searchable()
                     ->preload(),

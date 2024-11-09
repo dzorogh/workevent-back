@@ -10,7 +10,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 class UpcomingEventsWidget extends BaseWidget
 {
     protected static ?int $sort = 2;
-    
+
     protected int | string | array $columnSpan = 'full';
 
     public function table(Table $table): Table
@@ -27,20 +27,20 @@ class UpcomingEventsWidget extends BaseWidget
                     ->label(__('filament-widgets.upcoming-events.columns.title'))
                     ->searchable()
                     ->limit(50),
-                    
+
                 Tables\Columns\TextColumn::make('start_date')
                     ->label(__('filament-widgets.upcoming-events.columns.start_date'))
                     ->date()
                     ->sortable(),
-                    
+
                 Tables\Columns\TextColumn::make('format')
                     ->label(__('filament-widgets.upcoming-events.columns.format'))
                     ->badge(),
-                    
+
                 Tables\Columns\TextColumn::make('city.title')
                     ->label(__('filament-widgets.upcoming-events.columns.city')),
-                    
-                Tables\Columns\TextColumn::make('mainIndustry.title')
+
+                Tables\Columns\TextColumn::make('industry.title')
                     ->label(__('filament-widgets.upcoming-events.columns.industry')),
             ])
             ->actions([
@@ -51,4 +51,4 @@ class UpcomingEventsWidget extends BaseWidget
             ])
             ->paginated([5]);
     }
-} 
+}

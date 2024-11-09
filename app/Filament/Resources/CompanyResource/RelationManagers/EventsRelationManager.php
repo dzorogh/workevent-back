@@ -2,71 +2,58 @@
 
 namespace App\Filament\Resources\CompanyResource\RelationManagers;
 
+use App\Enums\ParticipationType;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class EventsRelationManager extends RelationManager
 {
     protected static string $relationship = 'events';
 
-    public function form(Form $form): Form
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('event_id')
-                    ->relationship('event', 'title')
-                    ->required()
-                    ->searchable()
-                    ->preload(),
-
-                Forms\Components\Select::make('participation_type')
-                    ->options([
-                        'organizer' => 'Organizer',
-                        'sponsor' => 'Sponsor',
-                        'participant' => 'Participant',
-                        'partner' => 'Partner',
-                    ])
-                    ->required(),
-            ]);
+        return __('filament-resources.companies.relations.events.title');
     }
 
     public function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('title')
             ->columns([
                 Tables\Columns\TextColumn::make('title')
+                    ->label(__('filament-resources.companies.relations.events.fields.title'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('start_date')
+                    ->label(__('filament-resources.companies.relations.events.fields.start_date'))
                     ->date()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('format')
+                    ->label(__('filament-resources.companies.relations.events.fields.format'))
                     ->badge(),
 
                 Tables\Columns\TextColumn::make('pivot.participation_type')
+                    ->label(__('filament-resources.companies.relations.events.fields.participation_type'))
                     ->badge()
-                    ->colors([
-                        'warning' => 'sponsor',
-                        'success' => 'organizer',
-                        'primary' => 'participant',
-                        'info' => 'partner',
-                    ]),
+                    ->formatStateUsing(fn (string $state) => ParticipationType::from($state)->getLabel())
+                    ->color(fn (string $state) => ParticipationType::from($state)->getColor()),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('format'),
+                Tables\Filters\SelectFilter::make('format')
+                    ->label(__('filament-resources.companies.relations.events.fields.format')),
+
                 Tables\Filters\SelectFilter::make('participation_type')
-                    ->options([
-                        'organizer' => 'Organizer',
-                        'sponsor' => 'Sponsor',
-                        'participant' => 'Participant',
-                        'partner' => 'Partner',
-                    ]),
+                    ->options(ParticipationType::getLabels())
+                    ->label(__('filament-resources.companies.relations.events.fields.participation_type')),
             ])
             ->headerActions([
                 Tables\Actions\AttachAction::make()
@@ -74,17 +61,12 @@ class EventsRelationManager extends RelationManager
                     ->form(fn (AttachAction $action): array => [
                         $action->getRecordSelect(),
                         Forms\Components\Select::make('participation_type')
-                            ->options([
-                                'organizer' => 'Organizer',
-                                'sponsor' => 'Sponsor',
-                                'participant' => 'Participant',
-                                'partner' => 'Partner',
-                            ])
+                            ->label(__('filament-resources.companies.relations.events.fields.participation_type'))
+                            ->options(ParticipationType::getLabels())
                             ->required(),
                     ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\DetachAction::make(),
             ])
             ->bulkActions([

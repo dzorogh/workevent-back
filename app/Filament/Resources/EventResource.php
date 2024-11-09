@@ -14,18 +14,22 @@ use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
-use App\Models\EventSeries;
+use App\Models\Series;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TagsInput;
-use App\Models\EventTag;
+use App\Models\Tag;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
+use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
+use App\Enums\EventFormat;
+use App\Filament\Resources\EventResource\RelationManagers\TariffsRelationManager;
 
 class EventResource extends Resource
 {
@@ -49,11 +53,33 @@ class EventResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->label(__('filament-resources.events.fields.title'))
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpanFull(),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('title')
+                            ->label(__('filament-resources.events.fields.title'))
+                            ->required()
+                            ->maxLength(255),
+
+                        Forms\Components\Select::make('format')
+                            ->label(__('filament-resources.events.fields.format'))
+                            ->options(EventFormat::getLabels())
+                            ->required(),
+
+                        Select::make('series_id')
+                            ->label(__('filament-resources.events.fields.series_id'))
+                            ->relationship('series', 'title')
+                            ->searchable()
+                            ->preload()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('title')
+                                    ->label(__('filament-resources.event-series.fields.title'))
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->unique(Series::class),
+                            ])
+                            ->createOptionModalHeading(__('filament-resources.event-series.actions.create.heading')),
+                    ])
+                    ->columns(2),
 
                 SpatieMediaLibraryFileUpload::make('cover')
                     ->label(__('filament-resources.events.fields.cover'))
@@ -85,36 +111,6 @@ class EventResource extends Resource
                     ->label(__('filament-resources.events.fields.description'))
                     ->columnSpanFull(),
 
-                Select::make('series_id')
-                    ->label(__('filament-resources.events.fields.series_id'))
-                    ->relationship('series', 'title')
-                    ->searchable()
-                    ->preload()
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('title')
-                            ->label(__('filament-resources.event-series.fields.title'))
-                            ->required()
-                            ->maxLength(255)
-                            ->unique(EventSeries::class),
-                    ])
-                    ->createOptionModalHeading(__('filament-resources.event-series.actions.create.heading')),
-
-                Forms\Components\TextInput::make('website')
-                    ->label(__('filament-resources.events.fields.website'))
-                    ->url()
-                    ->maxLength(255),
-
-                Forms\Components\Select::make('format')
-                    ->label(__('filament-resources.events.fields.format'))
-                    ->options([
-                        'forum' => __('filament-resources.events.formats.forum'),
-                        'conference' => __('filament-resources.events.formats.conference'),
-                        'exhibition' => __('filament-resources.events.formats.exhibition'),
-                        'seminar' => __('filament-resources.events.formats.seminar'),
-                        'webinar' => __('filament-resources.events.formats.webinar'),
-                    ])
-                    ->required(),
-
                 Forms\Components\Grid::make()
                     ->schema([
                         DatePicker::make('start_date')
@@ -139,24 +135,9 @@ class EventResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Select::make('city_id')
-                    ->label(__('filament-resources.events.fields.city_id'))
-                    ->relationship('city', 'title')
-                    ->searchable()
-                    ->required()
-                    ->preload()
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('title')
-                            ->label(__('filament-resources.cities.fields.title'))
-                            ->required()
-                            ->maxLength(255)
-                            ->unique('cities', 'title'),
-                    ])
-                    ->createOptionModalHeading(__('filament-resources.cities.actions.create.heading')),
-
-                Forms\Components\Select::make('main_industry_id')
-                    ->label(__('filament-resources.events.fields.main_industry_id'))
-                    ->relationship('mainIndustry', 'title')
+                Forms\Components\Select::make('industry_id')
+                    ->label(__('filament-resources.events.fields.industry_id'))
+                    ->relationship('industry', 'title')
                     ->required()
                     ->searchable()
                     ->preload()
@@ -185,6 +166,40 @@ class EventResource extends Resource
                     ->createOptionModalHeading(__('filament-resources.event-tags.actions.create.heading'))
                     ->placeholder(__('filament-resources.events.placeholders.tags')),
 
+                Forms\Components\Section::make(__('filament-resources.events.sections.location'))
+                    ->schema([
+                        Forms\Components\Select::make('city_id')
+                            ->label(__('filament-resources.events.fields.city_id'))
+                            ->relationship('city', 'title')
+                            ->searchable()
+                            ->required()
+                            ->preload()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('title')
+                                    ->label(__('filament-resources.cities.fields.title'))
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->unique('cities', 'title'),
+                            ])
+                            ->createOptionModalHeading(__('filament-resources.cities.actions.create.heading')),
+
+                        Forms\Components\Select::make('venue_id')
+                            ->label(__('filament-resources.events.fields.venue'))
+                            ->relationship('venue', 'title')
+                            ->searchable()
+                            ->preload()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('title')
+                                    ->label(__('filament-resources.venues.fields.title'))
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('address')
+                                    ->label(__('filament-resources.venues.fields.address'))
+                                    ->maxLength(255),
+                            ]),
+                    ])
+                    ->columns(2),
+
                 Forms\Components\Section::make(__('filament-resources.events.sections.settings'))
                     ->schema([
                         Toggle::make('is_priority')
@@ -198,6 +213,25 @@ class EventResource extends Resource
                             ->helperText(__('filament-resources.events.fields.sort_order_help')),
                     ])
                     ->columns(2),
+
+                Forms\Components\Section::make(__('filament-resources.events.sections.contacts'))
+                    ->schema([
+                        Forms\Components\TextInput::make('website')
+                            ->label(__('filament-resources.events.fields.website'))
+                            ->url()
+                            ->suffixIcon('heroicon-m-globe-alt'),
+
+                        PhoneInput::make('phone')
+                            ->label(__('filament-resources.events.fields.phone'))
+                            ->defaultCountry('RU')
+                            ->displayNumberFormat(PhoneInputNumberType::INTERNATIONAL),
+
+                        Forms\Components\TextInput::make('email')
+                            ->label(__('filament-resources.events.fields.email'))
+                            ->email()
+                            ->suffixIcon('heroicon-m-envelope'),
+                    ])
+                    ->columns(3),
             ]);
     }
 
@@ -226,7 +260,8 @@ class EventResource extends Resource
                             Tables\Columns\TextColumn::make('format')
                                 ->label(__('filament-resources.events.fields.format'))
                                 ->badge()
-                                ->formatStateUsing(fn(?string $state): string => $state ? __("filament-resources.events.formats.{$state}") : ''),
+                                ->color(fn (EventFormat $state): string => $state->getColor())
+                                ->formatStateUsing(fn (EventFormat $state): string => $state->getLabel()),
 
                             Tables\Columns\TextColumn::make('city.title')
                                 ->label(__('filament-resources.events.fields.city_id'))
@@ -241,25 +276,27 @@ class EventResource extends Resource
                                 ->icon('heroicon-m-calendar')
                                 ->iconPosition(IconPosition::Before),
 
-                            Tables\Columns\TextColumn::make('mainIndustry.title')
-                                ->label(__('filament-resources.events.fields.main_industry_id'))
+                            Tables\Columns\TextColumn::make('industry.title')
+                                ->label(__('filament-resources.events.fields.industry_id'))
                                 ->icon('heroicon-m-building-library'),
                         ]),
                 ])
                     ->space(3),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('format'),
+                Tables\Filters\SelectFilter::make('format')
+                    ->options(EventFormat::getLabels()),
                 Tables\Filters\SelectFilter::make('city')
                     ->relationship('city', 'title'),
-                Tables\Filters\SelectFilter::make('mainIndustry')
-                    ->relationship('mainIndustry', 'title'),
+                Tables\Filters\SelectFilter::make('industry')
+                    ->relationship('industry', 'title'),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
+            TariffsRelationManager::class,
             // Add your relations here
         ];
     }

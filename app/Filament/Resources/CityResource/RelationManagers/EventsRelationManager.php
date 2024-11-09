@@ -28,7 +28,7 @@ class EventsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('format')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('mainIndustry.title')
+                Tables\Columns\TextColumn::make('industry.title')
                     ->label('Industry')
                     ->sortable(),
             ])
@@ -42,8 +42,8 @@ class EventsRelationManager extends RelationManager
                         'webinar' => 'Webinar',
                     ]),
 
-                Tables\Filters\SelectFilter::make('main_industry_id')
-                    ->relationship('mainIndustry', 'title')
+                Tables\Filters\SelectFilter::make('industry_id')
+                    ->relationship('industry', 'title')
                     ->label('Industry')
                     ->searchable()
                     ->preload(),

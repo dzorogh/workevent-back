@@ -17,13 +17,13 @@ class Speaker extends Model
 
     public function topics(): HasMany
     {
-        return $this->hasMany(SpeakerTopic::class);
+        return $this->hasMany(Topic::class);
     }
 
     public function events(): BelongsToMany
     {
-        return $this->belongsToMany(Event::class, 'speaker_events')
+        return $this->belongsToMany(Event::class)
             ->withPivot('description')
             ->withTimestamps();
     }
-} 
+}

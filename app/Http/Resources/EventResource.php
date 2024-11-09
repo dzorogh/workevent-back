@@ -33,8 +33,8 @@ class EventResource extends JsonResource
                 'title' => $this->city?->title,
             ],
             'industry' => [
-                'id' => $this->mainIndustry?->id,
-                'title' => $this->mainIndustry?->title,
+                'id' => $this->industry?->id,
+                'title' => $this->industry?->title,
             ],
             'tags' => $this->tags->map(fn($tag) => [
                 'id' => $tag->id,
@@ -43,4 +43,4 @@ class EventResource extends JsonResource
             'sort_order' => $this->sort_order,
         ];
     }
-} 
+}

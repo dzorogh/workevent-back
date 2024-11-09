@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Enums\EventFormat;
 
 class Event extends Model implements HasMedia
 {
@@ -20,11 +22,14 @@ class Event extends Model implements HasMedia
         'end_date',
         'format',
         'website',
+        'phone',
+        'email',
         'city_id',
-        'main_industry_id',
+        'industry_id',
         'is_priority',
         'sort_order',
         'description',
+        'venue_id',
     ];
 
     protected $casts = [
@@ -32,11 +37,12 @@ class Event extends Model implements HasMedia
         'end_date' => 'date',
         'is_priority' => 'boolean',
         'sort_order' => 'integer',
+        'format' => EventFormat::class,
     ];
 
     public function series(): BelongsTo
     {
-        return $this->belongsTo(EventSeries::class);
+        return $this->belongsTo(Series::class);
     }
 
     public function city(): BelongsTo
@@ -44,28 +50,38 @@ class Event extends Model implements HasMedia
         return $this->belongsTo(City::class);
     }
 
-    public function mainIndustry(): BelongsTo
+    public function industry(): BelongsTo
     {
         return $this->belongsTo(Industry::class);
     }
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(EventTag::class, 'event_tag', 'event_id', 'tag_id');
+        return $this->belongsToMany(Tag::class);
     }
 
     public function speakers(): BelongsToMany
     {
-        return $this->belongsToMany(Speaker::class, 'speaker_events')
+        return $this->belongsToMany(Speaker::class)
             ->withPivot('description')
             ->withTimestamps();
     }
 
     public function companies(): BelongsToMany
     {
-        return $this->belongsToMany(Company::class, 'company_event')
+        return $this->belongsToMany(Company::class)
             ->withPivot('participation_type')
             ->withTimestamps();
+    }
+
+    public function venue(): BelongsTo
+    {
+        return $this->belongsTo(Venue::class);
+    }
+
+    public function tariffs(): HasMany
+    {
+        return $this->hasMany(Tariff::class);
     }
 
     public function registerMediaCollections(): void

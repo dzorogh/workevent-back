@@ -11,6 +11,6 @@ class Industry extends Model
 
     public function mainEvents(): HasMany
     {
-        return $this->hasMany(Event::class, 'main_industry_id');
+        return $this->hasMany(Event::class);
     }
-} 
+}

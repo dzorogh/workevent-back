@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\EventSeriesResource\Pages;
 use App\Filament\Resources\EventSeriesResource\RelationManagers\EventsRelationManager;
-use App\Models\EventSeries;
+use App\Models\Series;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,7 +13,7 @@ use Filament\Tables\Table;
 
 class EventSeriesResource extends Resource
 {
-    protected static ?string $model = EventSeries::class;
+    protected static ?string $model = Series::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -45,13 +45,13 @@ class EventSeriesResource extends Resource
 
                         Forms\Components\Placeholder::make('created_at')
                             ->label(__('filament-resources.timestamps.created_at'))
-                            ->content(fn (?EventSeries $record): string =>
+                            ->content(fn (?Series $record): string =>
                             $record ? $record->created_at->diffForHumans() : '-'
                             ),
 
                         Forms\Components\Placeholder::make('updated_at')
                             ->label(__('filament-resources.timestamps.updated_at'))
-                            ->content(fn (?EventSeries $record): string =>
+                            ->content(fn (?Series $record): string =>
                             $record ? $record->updated_at->diffForHumans() : '-'
                             ),
                     ])

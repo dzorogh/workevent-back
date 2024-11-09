@@ -8,6 +8,8 @@ return [
             'basic_info' => 'Основная информация',
             'details' => 'Детали',
             'settings' => 'Настройки отображения',
+            'contacts' => 'Контактная информация',
+            'location' => 'Место проведения',
         ],
         'fields' => [
             'title' => 'Название',
@@ -16,9 +18,11 @@ return [
             'end_date' => 'Дата окончания',
             'format' => 'Формат',
             'city_id' => 'Город',
-            'main_industry_id' => 'Основная отрасль',
+            'industry_id' => 'Основная отрасль',
             'tags' => 'Теги',
             'website' => 'Веб-сайт',
+            'phone' => 'Телефон',
+            'email' => 'Электронная почта',
             'is_priority' => 'Приоритетное',
             'is_priority_help' => 'Приоритетные мероприятия будут выделяться в списке',
             'sort_order' => 'Порядок сортировки',
@@ -26,6 +30,7 @@ return [
             'description' => 'Описание',
             'cover' => 'Обложка мероприятия',
             'gallery' => 'Галерея',
+            'venue' => 'Площадка',
         ],
         'formats' => [
             'forum' => 'Форум',
@@ -48,8 +53,20 @@ return [
         'hints' => [
             'gallery' => 'Загрузите до 10 изображений. Поддерживается перетаскивание.',
         ],
+        'relations' => [
+            'tariffs' => [
+                'title' => 'Стоимость участия',
+                'fields' => [
+                    'title' => 'Название тарифа',
+                    'description' => 'Условия',
+                    'price' => 'Стоимость',
+                    'is_active' => 'Активен',
+                    'sort_order' => 'Порядок сортировки',
+                ],
+            ],
+        ],
     ],
-    
+
     'event-series' => [
         'label' => 'Серия мероприятий',
         'plural_label' => 'Серии мероприятий',
@@ -63,7 +80,7 @@ return [
             ],
         ],
     ],
-    
+
     'event-tags' => [
         'label' => 'Тег',
         'plural_label' => 'Теги',
@@ -77,7 +94,7 @@ return [
             ],
         ],
     ],
-    
+
     'speakers' => [
         'label' => 'Спикер',
         'plural_label' => 'Спикеры',
@@ -101,28 +118,52 @@ return [
             'add_topic' => 'Добавить тему',
         ],
     ],
-    
+
     'companies' => [
         'label' => 'Компания',
         'plural_label' => 'Компании',
         'sections' => [
             'event_participations' => 'Участие в мероприятиях',
+            'contacts' => 'Контактная информация',
         ],
         'fields' => [
             'title' => 'Название компании',
             'inn' => 'ИНН',
-            'inn_help' => '10 цифр для организаций, 12 цифр для ИП',
+            'inn_help' => 'Введите 10 цифр для юр. лица или 12 цифр для ИП',
+            'event' => 'Мероприятие',
             'events_count' => 'Мероприятий',
-            'event_participations' => 'Участие в мероприятиях',
+            'description' => 'Описание компании',
+            'website' => 'Веб-сайт',
+            'phone' => 'Телефон',
+            'email' => 'Электронная почта',
         ],
         'participation_types' => [
             'organizer' => 'Организатор',
+            'partner' => 'Партнер',
             'sponsor' => 'Спонсор',
             'participant' => 'Участник',
-            'partner' => 'Партнер',
+        ],
+        'relations' => [
+            'events' => [
+                'title' => 'Участие в мероприятиях',
+                'fields' => [
+                    'title' => 'Название',
+                    'start_date' => 'Дата начала',
+                    'format' => 'Формат',
+                    'participation_type' => 'Тип участия',
+                ],
+                'actions' => [
+                    'attach' => [
+                        'label' => 'Привязать мероприятие',
+                    ],
+                ],
+            ],
+        ],
+        'actions' => [
+            'add_event_participation' => 'Добавить участие в мероприятии',
         ],
     ],
-    
+
     'cities' => [
         'label' => 'Город',
         'plural_label' => 'Города',
@@ -140,7 +181,7 @@ return [
             ],
         ],
     ],
-    
+
     'industries' => [
         'label' => 'Отрасль',
         'plural_label' => 'Отрасли',
@@ -158,9 +199,28 @@ return [
             ],
         ],
     ],
-    
+
     'timestamps' => [
         'created_at' => 'Создано',
         'updated_at' => 'Обновлено',
     ],
-]; 
+
+    'venues' => [
+        'label' => 'Площадка',
+        'plural_label' => 'Площадки',
+
+        'sections' => [
+            'contacts' => 'Контактная информация',
+        ],
+
+        'fields' => [
+            'title' => 'Название',
+            'description' => 'Описание',
+            'address' => 'Адрес',
+            'website' => 'Веб-сайт',
+            'phone' => 'Телефон',
+            'email' => 'Электронная почта',
+            'events_count' => 'Мероприятий',
+        ],
+    ],
+];

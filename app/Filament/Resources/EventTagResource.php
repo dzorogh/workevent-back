@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\EventTagResource\Pages;
-use App\Models\EventTag;
+use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,7 +12,7 @@ use Filament\Tables\Table;
 
 class EventTagResource extends Resource
 {
-    protected static ?string $model = EventTag::class;
+    protected static ?string $model = Tag::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
@@ -47,13 +47,13 @@ class EventTagResource extends Resource
                             ->schema([
                                 Forms\Components\Placeholder::make('events_count')
                                     ->label(__('filament-resources.event-tags.fields.events_count'))
-                                    ->content(fn (?EventTag $record): string =>
+                                    ->content(fn (?Tag $record): string =>
                                         $record ? $record->events()->count() : '0'
                                     ),
 
                                 Forms\Components\Placeholder::make('created_at')
                                     ->label(__('filament-resources.timestamps.created_at'))
-                                    ->content(fn (?EventTag $record): string =>
+                                    ->content(fn (?Tag $record): string =>
                                         $record ? $record->created_at->diffForHumans() : '-'
                                     ),
                             ])
@@ -96,7 +96,7 @@ class EventTagResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
-                    ->before(function (EventTag $record) {
+                    ->before(function (Tag $record) {
                         if ($record->events()->count() > 0) {
                             Filament\Notifications\Notification::make()
                                 ->warning()

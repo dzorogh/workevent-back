@@ -5,12 +5,16 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CompanyResource\Pages;
 use App\Filament\Resources\CompanyResource\RelationManagers\EventsRelationManager;
 use App\Models\Company;
-use App\Models\Event;
+use Exception;
 use Filament\Forms;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Enums\ParticipationType;
+use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
+use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
 class CompanyResource extends Resource
 {
@@ -42,7 +46,7 @@ class CompanyResource extends Resource
                             ->label(__('filament-resources.companies.fields.title'))
                             ->required()
                             ->maxLength(255),
-                            
+
                         Forms\Components\TextInput::make('inn')
                             ->label(__('filament-resources.companies.fields.inn'))
                             ->maxLength(12)
@@ -53,35 +57,37 @@ class CompanyResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make(__('filament-resources.companies.sections.event_participations'))
+                Forms\Components\Section::make(__('filament-resources.companies.sections.contacts'))
                     ->schema([
-                        Forms\Components\Repeater::make('event_participations')
-                            ->schema([
-                                Forms\Components\Select::make('event_id')
-                                    ->label(__('filament-resources.companies.fields.event'))
-                                    ->options(fn () => Event::pluck('title', 'id'))
-                                    ->required()
-                                    ->searchable(),
+                        Forms\Components\TextInput::make('website')
+                            ->label(__('filament-resources.companies.fields.website'))
+                            ->url()
+                            ->suffixIcon('heroicon-m-globe-alt'),
 
-                                Forms\Components\Select::make('participation_type')
-                                    ->options([
-                                        'organizer' => __('filament-resources.companies.participation_types.organizer'),
-                                        'sponsor' => __('filament-resources.companies.participation_types.sponsor'),
-                                        'participant' => __('filament-resources.companies.participation_types.participant'),
-                                        'partner' => __('filament-resources.companies.participation_types.partner'),
-                                    ])
-                                    ->required(),
-                            ])
-                            ->columns(2)
-                            ->defaultItems(0)
-                            ->reorderable(false)
-                            ->addActionLabel('Add Event Participation')
-                            ->collapsible(),
+                        PhoneInput::make('phone')
+                            ->label(__('filament-resources.companies.fields.phone'))
+                            ->defaultCountry('RU')
+                            ->displayNumberFormat(PhoneInputNumberType::INTERNATIONAL),
+
+                        Forms\Components\TextInput::make('email')
+                            ->label(__('filament-resources.companies.fields.email'))
+                            ->email()
+                            ->suffixIcon('heroicon-m-envelope'),
                     ])
-                    ->collapsible(),
+                    ->columns(3),
+
+                Forms\Components\Section::make()
+                    ->schema([
+                        MarkdownEditor::make('description')
+                            ->label(__('filament-resources.companies.fields.description'))
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -90,12 +96,12 @@ class CompanyResource extends Resource
                     ->label(__('filament-resources.companies.fields.title'))
                     ->searchable()
                     ->sortable(),
-                    
+
                 Tables\Columns\TextColumn::make('inn')
                     ->label(__('filament-resources.companies.fields.inn'))
                     ->searchable()
                     ->sortable(),
-                    
+
                 Tables\Columns\TextColumn::make('events_count')
                     ->counts('events')
                     ->label(__('filament-resources.companies.fields.events_count'))
@@ -105,21 +111,30 @@ class CompanyResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('website')
+                    ->label(__('filament-resources.companies.fields.website'))
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->url(fn (Company $record) => $record->website),
+
+                Tables\Columns\TextColumn::make('phone')
+                    ->label(__('filament-resources.companies.fields.phone'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('email')
+                    ->label(__('filament-resources.companies.fields.email'))
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('participation_type')
                     ->relationship('events', 'participation_type')
-                    ->options([
-                        'organizer' => 'Organizer',
-                        'sponsor' => 'Sponsor',
-                        'participant' => 'Participant',
-                        'partner' => 'Partner',
-                    ])
-                    ->multiple(),
+                    ->options(ParticipationType::getLabels())
+                    ->multiple()
+                    ->label(__('filament-resources.companies.fields.participation_type')),
 
                 Tables\Filters\Filter::make('has_inn')
                     ->query(fn ($query) => $query->whereNotNull('inn'))
-                    ->label('With INN')
+                    ->label('С ИНН')
                     ->toggle(),
             ])
             ->actions([
