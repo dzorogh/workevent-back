@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Contracts\HasMetadataContract;
-use App\DTOs\MetadataDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Resources\MetadataResource;
 use App\Http\Requests\MetadataRequest;
+use App\Http\Resources\MetadataResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
