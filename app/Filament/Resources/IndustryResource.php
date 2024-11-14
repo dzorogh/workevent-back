@@ -47,8 +47,8 @@ class IndustryResource extends Resource
 
                         Forms\Components\Grid::make()
                             ->schema([
-                                Forms\Components\Placeholder::make('main_events_count')
-                                    ->label(__('filament-resources.industries.fields.main_events_count'))
+                                Forms\Components\Placeholder::make('events_count')
+                                    ->label(__('filament-resources.industries.fields.events_count'))
                                     ->content(fn(?Industry $record): string => $record ? $record->events()->count() : '0'
                                     ),
 
@@ -76,9 +76,9 @@ class IndustryResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('main_events_count')
-                    ->counts('mainEvents')
-                    ->label(__('filament-resources.industries.fields.main_events_count'))
+                Tables\Columns\TextColumn::make('events_count')
+                    ->counts('events')
+                    ->label(__('filament-resources.industries.fields.events_count'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
@@ -94,12 +94,12 @@ class IndustryResource extends Resource
             ->filters([
                 Tables\Filters\Filter::make('has_events')
                     ->label(__('filament-resources.industries.filters.has_events'))
-                    ->query(fn($query) => $query->has('mainEvents'))
+                    ->query(fn($query) => $query->has('events'))
                     ->toggle(),
 
                 Tables\Filters\Filter::make('no_events')
                     ->label(__('filament-resources.industries.filters.no_events'))
-                    ->query(fn($query) => $query->doesntHave('mainEvents'))
+                    ->query(fn($query) => $query->doesntHave('events'))
                     ->toggle(),
             ])
             ->actions([
@@ -122,7 +122,7 @@ class IndustryResource extends Resource
                     Tables\Actions\DeleteBulkAction::make()
                         ->before(function ($records) {
                             foreach ($records as $record) {
-                                if ($record->mainEvents()->count() > 0) {
+                                if ($record->events()->count() > 0) {
                                     Notification::make()
                                         ->warning()
                                         ->title('Cannot delete industries')

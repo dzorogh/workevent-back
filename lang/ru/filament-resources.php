@@ -187,7 +187,7 @@ return [
         'plural_label' => 'Отрасли',
         'fields' => [
             'title' => 'Название',
-            'main_events_count' => 'Мероприятий',
+            'events_count' => 'Мероприятий',
         ],
         'filters' => [
             'has_events' => 'С мероприятиями',
