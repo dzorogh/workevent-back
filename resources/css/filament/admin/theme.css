@@ -1,0 +1,8 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+
+.fi-topbar > nav, .fi-sidebar-header {
+    @apply !bg-gray-50 dark:!bg-gray-950 !ring-0 !shadow-none
+}

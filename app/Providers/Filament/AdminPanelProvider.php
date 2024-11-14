@@ -64,6 +64,23 @@ class AdminPanelProvider extends PanelProvider
                 'settings' => __('filament-navigation.groups.settings'),
                 'organizations' => __('filament-navigation.groups.organizations'),
                 'references' => __('filament-navigation.groups.references'),
-            ]);
+                'participants' => __('filament-navigation.groups.participants'),
+
+            ])
+
+            ->font('Inter')
+            ->colors([
+                'danger' => "#EB2424",
+                'gray' => "#7E7E98",
+                'primary' => "#494BE2",
+                'info' => "#494BE2",
+                'success' => "#DEF967",
+                'warning' => Color::Orange,
+            ])
+
+            ->brandLogo(asset('images/admin-logo.svg'))
+
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ;
     }
 }
