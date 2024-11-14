@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Resources;
+namespace App\Http\Resources;
 
 use App\Traits\HasMetadataResource;
 use Illuminate\Http\Request;

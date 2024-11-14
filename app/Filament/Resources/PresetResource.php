@@ -12,6 +12,8 @@ use Filament\Tables\Table;
 use App\Models\City;
 use App\Enums\EventFormat;
 use App\Models\Industry;
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 
 class PresetResource extends Resource
 {
@@ -19,7 +21,9 @@ class PresetResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-funnel';
 
-    protected static ?string $navigationGroup = 'settings';
+    protected static ?string $navigationGroup = 'references';
+
+    protected static ?int $navigationSort = 5;
 
     public static function getModelLabel(): string
     {
@@ -64,11 +68,6 @@ class PresetResource extends Resource
                 Forms\Components\Toggle::make('is_active')
                     ->label(__('filament-resources.presets.fields.is_active'))
                     ->default(true),
-
-                Forms\Components\TextInput::make('sort_order')
-                    ->label(__('filament-resources.presets.fields.sort_order'))
-                    ->numeric()
-                    ->default(0),
             ]);
     }
 
@@ -92,10 +91,6 @@ class PresetResource extends Resource
                     ->label(__('filament-resources.presets.fields.is_active'))
                     ->boolean()
                     ->sortable(),
-
-                Tables\Columns\TextColumn::make('sort_order')
-                    ->label(__('filament-resources.presets.fields.sort_order'))
-                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_active')
@@ -104,6 +99,20 @@ class PresetResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('duplicate')
+                    ->label('Дублировать')
+                    ->icon('heroicon-o-document-duplicate')
+                    ->action(function (Preset $record): void {
+                        $clone = $record->replicate();
+                        $clone->title = $clone->title . ' (копия)';
+                        $clone->slug = $clone->slug . '-copy';
+                        $clone->save();
+                        
+                        Notification::make()
+                            ->title('Пресет скопирован')
+                            ->success()
+                            ->send();
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

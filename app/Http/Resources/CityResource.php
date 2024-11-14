@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Resources\Resources;
+namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class IndustryResource extends JsonResource
+class CityResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'events_count' => $this->whenCounted('events'),  // Optional
+            'events_count' => $this->whenCounted('events'),
         ];
     }
 }
