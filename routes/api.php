@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\V1\EventController;
 use App\Http\Controllers\Api\V1\MetadataController;
 use App\Http\Controllers\Api\V1\PresetController;
-use App\Http\Controllers\Api\V1\PriorityEventsController;
 use App\Http\Controllers\Api\V1\IndustryController;
 use App\Http\Controllers\Api\V1\CityController;
 use App\Http\Controllers\Api\V1\EventFormatController;
@@ -18,7 +17,7 @@ Route::prefix('v1')->group(function () {
     Route::get('events', [EventController::class, 'index']);
     Route::get('events/{event}', [EventController::class, 'show']);
 
-    Route::get('presets}', [PresetController::class, 'index']);
+    Route::get('presets', [PresetController::class, 'index']);
     Route::get('presets/{preset}', [PresetController::class, 'show']);
 
     Route::get('industries', [IndustryController::class, 'index']);
