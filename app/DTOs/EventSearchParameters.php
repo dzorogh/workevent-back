@@ -13,6 +13,7 @@ readonly class EventSearchParameters
         public ?string $dateTo = null,
         public int $page = 1,
         public int $perPage = 12,
+        public ?bool $isPriority = null,
     ) {}
 
     public static function fromArray(array $params): self
@@ -25,6 +26,7 @@ readonly class EventSearchParameters
             dateTo: $params['date_to'] ?? null,
             page: $params['page'] ?? 1,
             perPage: $params['per_page'] ?? 12,
+            isPriority: $params['is_priority'] ?? false,
         );
     }
 }

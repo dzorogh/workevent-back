@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Api\V1\SearchEventsRequest;
 use App\Models\Event;
 use Meilisearch\Endpoints\Indexes;
 use App\DTOs\EventSearchParameters;
@@ -53,6 +52,9 @@ class EventSearchService
         }
         if ($params->dateTo) {
             $filters[] = "end_date <= {$params->dateTo}";
+        }
+        if ($params->isPriority) {
+            $filters[] = "is_priority = true";
         }
 
         return $filters;

@@ -24,6 +24,7 @@ class SearchEventsRequest extends FormRequest
             'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
             'page' => ['nullable', 'integer', 'min:1', 'max:1000'],
+            'is_priority' => ['nullable', 'boolean'],
         ];
     }
 
