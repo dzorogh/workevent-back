@@ -11,9 +11,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Actions\ReorderAction;
-use Filament\Tables\Contracts\HasTable;
 
 class IndustryResource extends Resource
 {
@@ -23,7 +20,7 @@ class IndustryResource extends Resource
 
     protected static ?string $navigationGroup = 'references';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 5;
 
     protected static ?string $recordTitleAttribute = 'title';
 

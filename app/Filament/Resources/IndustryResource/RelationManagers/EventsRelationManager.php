@@ -10,7 +10,7 @@ use Filament\Tables\Table;
 
 class EventsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'mainEvents';
+    protected static string $relationship = 'events';
 
     protected static ?string $recordTitleAttribute = 'title';
 

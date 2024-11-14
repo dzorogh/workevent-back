@@ -12,7 +12,6 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -60,9 +59,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 'events' => __('filament-navigation.groups.events'),
-                'people' => __('filament-navigation.groups.people'),
-                'settings' => __('filament-navigation.groups.settings'),
-                'organizations' => __('filament-navigation.groups.organizations'),
                 'references' => __('filament-navigation.groups.references'),
                 'participants' => __('filament-navigation.groups.participants'),
 

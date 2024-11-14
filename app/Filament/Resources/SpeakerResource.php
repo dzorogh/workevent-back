@@ -16,9 +16,9 @@ class SpeakerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
-    protected static ?string $navigationGroup = 'people';
+    protected static ?string $navigationGroup = 'participants';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     public static function getModelLabel(): string
     {
