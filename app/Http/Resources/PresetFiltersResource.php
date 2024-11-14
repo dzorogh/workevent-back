@@ -2,11 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\DTOs\PresetFiltersDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property-read \App\DTOs\PresetFiltersDTO $resource
+ * @property-read PresetFiltersDTO $resource
  */
 class PresetFiltersResource extends JsonResource
 {

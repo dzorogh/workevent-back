@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\DTOs\PresetFiltersDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,7 +17,7 @@ class PresetResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'filters' => new PresetFiltersResource($this->filters),
+            'filters' => new PresetFiltersResource(PresetFiltersDTO::fromArray($this->filters)),
             'events' => EventResource::collection($this->whenLoaded('events')),
         ];
     }
