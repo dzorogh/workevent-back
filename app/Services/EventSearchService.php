@@ -2,26 +2,38 @@
 
 namespace App\Services;
 
+use App\DTOs\EventSearchParameters;
+use App\DTOs\EventSearchResult;
+use App\DTOs\PaginatorMetaDTO;
 use App\Models\Event;
 use Meilisearch\Endpoints\Indexes;
-use App\DTOs\EventSearchParameters;
-use Illuminate\Database\Eloquent\Builder;
+use Meilisearch\Search\SearchResult;
 
 class EventSearchService
 {
-    public function search(EventSearchParameters $params): array
+    public function search(EventSearchParameters $params): EventSearchResult
     {
         $query = $this->buildSearchQuery($params);
 
-        $query->query(fn (Builder $query) => $query->with(['city', 'industry', 'tags', 'metadata', 'media']));
+        $searchResult = new SearchResult($query->raw());
 
-        $events = $this->paginateResults($query, $params->perPage);
-        $facets = $query->raw()['facetDistribution'] ?? [];
 
-        return [
-            'events' => $events,
-            'facets' => $facets,
-        ];
+        $events = Event::hydrate($searchResult->getHits());
+        $events->load(['city', 'industry']);
+
+        $meta = new PaginatorMetaDTO(
+            current_page: $searchResult->getPage(),
+            per_page: $searchResult->getHitsPerPage(),
+            last_page: $searchResult->getTotalPages(),
+            total: $searchResult->getTotalHits()
+        );
+
+        return new EventSearchResult(
+            events: $events,
+            meta: $meta,
+            facets: $searchResult->getFacetDistribution(),
+            facets_stats: $searchResult->getFacetStats(),
+        );
     }
 
     private function buildSearchQuery(EventSearchParameters $params): \Laravel\Scout\Builder
@@ -62,10 +74,5 @@ class EventSearchService
         }
 
         return $filters;
-    }
-
-    private function paginateResults($query, int $perPage)
-    {
-        return $query->paginate($perPage);
     }
 }

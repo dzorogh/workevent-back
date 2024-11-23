@@ -2,31 +2,40 @@
 
 namespace App\Http\Resources;
 
+use App\DTOs\EventSearchResult;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Pagination\AbstractPaginator;
 
 class SearchEventsResource extends JsonResource
 {
-    public function __construct(private $events, private array $facets)
+    /**
+     * @param EventSearchResult $result
+     */
+    public function __construct(public EventSearchResult $result)
     {
-        parent::__construct($events);
+        parent::__construct($result->events);
     }
 
     public function toArray(Request $request): array
     {
+        $meta = $this->result->getMeta();
+
         return [
             'data' => EventResource::collection($this->resource),
-            'facets' => [
-                'formats' => $this->facets['format'] ?? [],
-                'cities' => $this->facets['city_id'] ?? [],
-                'industries' => $this->facets['industry_id'] ?? [],
-            ],
+
+            /** @var array<string, array<string>> */
+            'facets' => $this->result->getFacets(),
+
+            /** @var array<string, array<string, int>> */
+            'facets_stats' => $this->result->getFacetsStats(),
+
             'meta' => [
-                'total' => $this->resource->total(),
-                'per_page' => $this->resource->perPage(),
-                'current_page' => $this->resource->currentPage(),
-                'last_page' => $this->resource->lastPage(),
-            ],
+                'last_page' => (int) $meta->last_page,
+                'current_page' => (int)  $meta->current_page,
+                'per_page' => (int) $meta->per_page,
+                'total' => (int) $meta->total,
+            ]
         ];
     }
 }

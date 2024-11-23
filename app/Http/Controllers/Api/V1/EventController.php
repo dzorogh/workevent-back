@@ -18,6 +18,6 @@ class EventController extends Controller
     {
         $result = $this->searchService->search(EventSearchParameters::fromArray($request->validated()));
 
-        return new SearchEventsResource($result['events'], $result['facets']);
+        return new SearchEventsResource($result);
     }
 }

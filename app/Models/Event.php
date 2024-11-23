@@ -91,27 +91,9 @@ class Event extends Model implements HasMedia, HasMetadataContract
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('cover')
-            ->singleFile()
-            ->registerMediaConversions(function (Media $media) {
-                $this->addMediaConversion('thumb')
-                    ->width(400)
-                    ->height(300);
+            ->singleFile();
 
-                $this->addMediaConversion('preview')
-                    ->width(800)
-                    ->height(600);
-            });
-
-        $this->addMediaCollection('gallery')
-            ->registerMediaConversions(function (Media $media) {
-                $this->addMediaConversion('thumb')
-                    ->width(400)
-                    ->height(300);
-
-                $this->addMediaConversion('preview')
-                    ->width(800)
-                    ->height(600);
-            });
+        $this->addMediaCollection('gallery');
     }
 
     public function toSearchableArray(): array
