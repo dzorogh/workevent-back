@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\HasMetadataContract;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -119,16 +120,23 @@ class Event extends Model implements HasMedia, HasMetadataContract
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'start_date' => $this->start_date->format('Y-m-d'),
             'format' => $this->format->value,
             'format_label' => $this->format->getLabel(),
-            'start_date' => $this->start_date->format('Y-m-d'),
-            'end_date' => $this->end_date->format('Y-m-d'),
             'city_id' => $this->city_id,
             'city_title' => $this->city->title,
             'industry_id' => $this->industry_id,
             'industry_title' => $this->industry->title,
             'is_priority' => $this->is_priority,
         ];
+    }
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with(['city', 'industry']);
     }
 
     public function searchableAs(): string

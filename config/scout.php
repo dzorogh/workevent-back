@@ -137,6 +137,11 @@ return [
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
             Event::class => [
+                'searchableAttributes' => [
+                    'title',
+                    'description',
+                    'format',
+                ],
                 'filterableAttributes' => [
                     'format',
                     'city_id',

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Event;
 use App\Models\Metadata;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
@@ -35,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
         request()->server->set('HTTPS', request()->header('X-Forwarded-Proto', 'https') == 'https' ? 'on' : 'off');
 
         Relation::enforceMorphMap($this->morphMap);
+
+        Model::preventLazyLoading();
 
     }
 }

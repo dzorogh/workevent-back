@@ -5,13 +5,17 @@ namespace App\Services;
 use App\Models\Event;
 use Meilisearch\Endpoints\Indexes;
 use App\DTOs\EventSearchParameters;
+use Illuminate\Database\Eloquent\Builder;
 
 class EventSearchService
 {
-    public function search(EventSearchParameters $searchParams): array
+    public function search(EventSearchParameters $params): array
     {
-        $query = $this->buildSearchQuery($searchParams);
-        $events = $this->paginateResults($query, $searchParams->perPage);
+        $query = $this->buildSearchQuery($params);
+
+        $query->query(fn (Builder $query) => $query->with(['city', 'industry', 'tags', 'metadata', 'media']));
+
+        $events = $this->paginateResults($query, $params->perPage);
         $facets = $query->raw()['facetDistribution'] ?? [];
 
         return [
@@ -23,7 +27,7 @@ class EventSearchService
     private function buildSearchQuery(EventSearchParameters $params): \Laravel\Scout\Builder
     {
         return Event::search($params->query, function (Indexes $meiliSearch, ?string $query, array $options) use ($params) {
-            $filter = $this->buildMeiliSearchFilter($params);
+            $filter = $this->buildFilters($params);
 
             return $meiliSearch->search($query, [
                 'facets' => ['*'],
@@ -34,7 +38,7 @@ class EventSearchService
         });
     }
 
-    private function buildMeiliSearchFilter(EventSearchParameters $params): array
+    private function buildFilters(EventSearchParameters $params): array
     {
         $filters = [];
 
