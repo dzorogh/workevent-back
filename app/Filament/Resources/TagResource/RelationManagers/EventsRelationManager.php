@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\EventTagResource\RelationManagers;
+namespace App\Filament\Resources\TagResource\RelationManagers;
 
-use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Resources\RelationManagers\RelationManager;    
 use Filament\Tables;
 use Filament\Tables\Table;
 

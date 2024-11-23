@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EventSeriesResource\Pages;
-use App\Filament\Resources\EventSeriesResource\RelationManagers\EventsRelationManager;
+use App\Filament\Resources\SeriesResource\Pages;
+use App\Filament\Resources\SeriesResource\RelationManagers\EventsRelationManager;
 use App\Models\Series;
 use Filament\Forms;
 use Filament\Forms\Form;

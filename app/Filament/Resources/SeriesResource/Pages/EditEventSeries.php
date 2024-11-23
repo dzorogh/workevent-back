@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\EventSeriesResource\Pages;
+namespace App\Filament\Resources\SeriesResource\Pages;
 
 use App\Filament\Resources\SeriesResource;
 use Filament\Actions;

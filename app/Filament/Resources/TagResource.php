@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EventTagResource\Pages;
+use App\Filament\Resources\TagResource\Pages;
 use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -131,7 +131,7 @@ class TagResource extends Resource
     public static function getRelations(): array
     {
         return [
-            EventTagResource\RelationManagers\EventsRelationManager::class,
+            TagResource\RelationManagers\EventsRelationManager::class,
         ];
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\EventTagResource\Pages;
+namespace App\Filament\Resources\TagResource\Pages;
 
 use App\Filament\Resources\TagResource;
 use Filament\Actions;

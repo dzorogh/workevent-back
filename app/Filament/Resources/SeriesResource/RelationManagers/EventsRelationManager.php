@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\EventSeriesResource\RelationManagers;
+namespace App\Filament\Resources\SeriesResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
