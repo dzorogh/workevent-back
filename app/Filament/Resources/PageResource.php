@@ -53,7 +53,8 @@ class PageResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('path'),
+                Tables\Columns\TextColumn::make('title'),
             ])
             ->filters([
                 //
