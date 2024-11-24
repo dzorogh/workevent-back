@@ -5,7 +5,9 @@ namespace App\Services;
 use App\DTOs\EventSearchParameters;
 use App\DTOs\EventSearchResult;
 use App\DTOs\PaginatorMetaDTO;
+use App\DTOs\PresetFiltersDTO;
 use App\Models\Event;
+use App\Models\Preset;
 use Meilisearch\Endpoints\Indexes;
 use Meilisearch\Search\SearchResult;
 
@@ -17,7 +19,6 @@ class EventSearchService
 
         $searchResult = new SearchResult($query->raw());
 
-
         $events = Event::hydrate($searchResult->getHits());
         $events->load(['city', 'industry']);
 
@@ -28,11 +29,24 @@ class EventSearchService
             total: $searchResult->getTotalHits()
         );
 
+        $presetFilters = new PresetFiltersDTO(
+            format: $params->format,
+            city_id: $params->cityId,
+            industry_id: $params->industryId
+        );
+
+        $query = Preset::query();
+        foreach (get_object_vars($presetFilters) as $key => $value) {
+            $query->where("filters->{$key}", $value);
+        }
+        $presets = $query->orderBy('sort_order')->get();
+
         return new EventSearchResult(
             events: $events,
+            presets: $presets,
             meta: $meta,
             facets: $searchResult->getFacetDistribution(),
-            facets_stats: $searchResult->getFacetStats(),
+            facets_stats: $searchResult->getFacetStats()
         );
     }
 

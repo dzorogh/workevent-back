@@ -109,9 +109,9 @@ class SeriesResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEventSeries::route('/'),
-            'create' => Pages\CreateEventSeries::route('/create'),
-            'edit' => Pages\EditEventSeries::route('/{record}/edit'),
+            'index' => Pages\ListSeries::route('/'),
+            'create' => Pages\CreateSeries::route('/create'),
+            'edit' => Pages\EditSeries::route('/{record}/edit'),
         ];
     }
 }

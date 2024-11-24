@@ -30,4 +30,19 @@ readonly class EventSearchParameters
             isPriority: $params['is_priority'] ?? false,
         );
     }
+
+    public function toArray()
+    {
+        return [
+            'query' => $this->query,
+            'format' => $this->format,
+            'city_id' => $this->cityId,
+            'industry_id' => $this->industryId,
+            'date_from' => $this->dateFrom,
+            'date_to' => $this->dateTo,
+            'page' => $this->page,
+            'per_page' => $this->perPage,
+            'is_priority' => $this->isPriority,
+        ];
+    }
 }

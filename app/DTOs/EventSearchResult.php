@@ -3,15 +3,17 @@
 namespace App\DTOs;
 
 use App\Models\Event;
+use App\Models\Preset;
 use Illuminate\Database\Eloquent\Collection;
 
 readonly class EventSearchResult
 {
     public function __construct(
-        public readonly Event|Collection $events,
-        public readonly PaginatorMetaDTO $meta,
-        public readonly array            $facets,
-        public readonly array            $facets_stats,
+        private readonly Event|Collection  $events,
+        private readonly Preset|Collection $presets,
+        private readonly PaginatorMetaDTO  $meta,
+        private readonly array             $facets,
+        private readonly array             $facets_stats,
     )
     {
     }
@@ -19,6 +21,16 @@ readonly class EventSearchResult
     public function getMeta()
     {
         return $this->meta;
+    }
+
+    public function getPresets()
+    {
+        return $this->presets;
+    }
+
+    public function getEvents()
+    {
+        return $this->events;
     }
 
     public function getFacets()

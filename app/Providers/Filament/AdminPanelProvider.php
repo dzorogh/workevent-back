@@ -75,6 +75,7 @@ class AdminPanelProvider extends PanelProvider
             ])
 
             ->brandLogo(asset('images/admin-logo.svg'))
+            ->favicon(asset('images/favicon.png'))
 
             ->viteTheme('resources/css/filament/admin/theme.css')
             ;

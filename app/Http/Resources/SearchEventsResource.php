@@ -5,7 +5,6 @@ namespace App\Http\Resources;
 use App\DTOs\EventSearchResult;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Pagination\AbstractPaginator;
 
 class SearchEventsResource extends JsonResource
 {
@@ -14,15 +13,17 @@ class SearchEventsResource extends JsonResource
      */
     public function __construct(public EventSearchResult $result)
     {
-        parent::__construct($result->events);
+        parent::__construct($result->getEvents());
     }
 
     public function toArray(Request $request): array
     {
         $meta = $this->result->getMeta();
-
+        
         return [
             'data' => EventResource::collection($this->resource),
+
+            'presets' => PresetResource::collection($this->result->getPresets()),
 
             /** @var array<string, array<string>> */
             'facets' => $this->result->getFacets(),
@@ -31,6 +32,7 @@ class SearchEventsResource extends JsonResource
             'facets_stats' => $this->result->getFacetsStats(),
 
             'meta' => [
+                // explicitly shown for auto-documentation
                 'last_page' => (int) $meta->last_page,
                 'current_page' => (int)  $meta->current_page,
                 'per_page' => (int) $meta->per_page,

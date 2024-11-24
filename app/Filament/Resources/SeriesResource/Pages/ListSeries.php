@@ -6,7 +6,7 @@ use App\Filament\Resources\SeriesResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListEventSeries extends ListRecords
+class ListSeries extends ListRecords
 {
     protected static string $resource = SeriesResource::class;
 

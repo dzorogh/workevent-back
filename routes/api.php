@@ -18,7 +18,7 @@ Route::prefix('v1')->group(function () {
     Route::get('events/{event}', [EventController::class, 'show']);
 
     Route::get('presets', [PresetController::class, 'index']);
-    Route::get('presets/{preset}', [PresetController::class, 'show']);
+    Route::get('presets/{preset:slug}', [PresetController::class, 'show']);
 
     Route::get('industries', [IndustryController::class, 'index']);
 

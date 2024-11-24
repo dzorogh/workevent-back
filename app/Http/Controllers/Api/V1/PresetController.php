@@ -26,10 +26,6 @@ class PresetController extends Controller
 
     public function show(Preset $preset)
     {
-        $searchResults = $this->searchService->search(
-            EventSearchParameters::fromArray($preset->filters)
-        );
-
-        return new PresetDetailResource($preset, $searchResults);
+        return new PresetResource($preset);
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use App\DTOs\PresetFiltersDTO;
+use App\Models\Event;
+use App\Models\Preset;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -11,6 +13,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class PresetResource extends JsonResource
 {
+    public function __construct(Preset $resource)
+    {
+        parent::__construct($resource);
+    }
+
     public function toArray(Request $request): array
     {
         return [
@@ -18,7 +25,6 @@ class PresetResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'filters' => new PresetFiltersResource(PresetFiltersDTO::fromArray($this->filters)),
-            'events' => EventResource::collection($this->whenLoaded('events')),
         ];
     }
 }
