@@ -9,6 +9,8 @@ use App\Http\Resources\EventResource;
 use App\Http\Resources\SearchEventsResource;
 use App\Models\Event;
 use App\Services\EventSearchService;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder;
 
 class EventController extends Controller
 {
@@ -25,7 +27,14 @@ class EventController extends Controller
 
     public function show(Event $event)
     {
-        $event->load(['city', 'industry', 'media', 'metadata', 'tariffs', 'tags']);
+        $event->load([
+            'city',
+            'industry',
+            'media',
+            'metadata',
+            'tariffs',
+            'tags',
+        ]);
 
         return new EventResource($event);
     }
