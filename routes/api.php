@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\PresetController;
 use App\Http\Controllers\Api\V1\IndustryController;
 use App\Http\Controllers\Api\V1\CityController;
 use App\Http\Controllers\Api\V1\EventFormatController;
+use App\Http\Controllers\Api\V1\PageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +28,6 @@ Route::prefix('v1')->group(function () {
     Route::get('metadata', [MetadataController::class, 'show']);
 
     Route::get('event-formats', [EventFormatController::class, 'index']);
+
+    Route::get('/pages', [PageController::class, 'show']);
 });

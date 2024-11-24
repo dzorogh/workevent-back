@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Event;
 use App\Models\Metadata;
+use App\Models\Page;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
@@ -15,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     protected array $morphMap = [
         'event' => Event::class,
         'metadata' => Metadata::class,
-        // Добавьте другие модели здесь
+        'page' => Page::class,
     ];
 
 
