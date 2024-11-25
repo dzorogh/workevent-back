@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use App\Contracts\HasMetadataContract;
+use App\Traits\HasMetadata;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Preset extends Model
+class Preset extends Model implements HasMetadataContract
 {
+    use HasMetadata;
+
     protected $fillable = [
         'title',
         'slug',

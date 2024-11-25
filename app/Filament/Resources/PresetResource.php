@@ -14,9 +14,12 @@ use App\Enums\EventFormat;
 use App\Models\Industry;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
+use App\Filament\Traits\HasMetadataResource;
 
 class PresetResource extends Resource
 {
+    use HasMetadataResource;
+
     protected static ?string $model = Preset::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-funnel';
@@ -35,40 +38,39 @@ class PresetResource extends Resource
         return __('filament-resources.presets.plural_label');
     }
 
-    public static function form(Form $form): Form
+    public static function getResourceFormSchema(): array
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->label(__('filament-resources.presets.fields.title'))
-                    ->required()
-                    ->maxLength(255),
+        return [
+            Forms\Components\TextInput::make('title')
+                ->label(__('filament-resources.presets.fields.title'))
+                ->required()
+                ->maxLength(255),
 
-                Forms\Components\TextInput::make('slug')
-                    ->label(__('filament-resources.presets.fields.slug'))
-                    ->maxLength(255)
-                    ->unique(ignoreRecord: true),
+            Forms\Components\TextInput::make('slug')
+                ->label(__('filament-resources.presets.fields.slug'))
+                ->maxLength(255)
+                ->unique(ignoreRecord: true),
 
-                Forms\Components\Section::make(__('filament-resources.presets.sections.filters'))
-                    ->schema([
-                        Forms\Components\Select::make('filters.format')
-                            ->label(__('filament-resources.events.fields.format'))
-                            ->options(EventFormat::getLabels()),
+            Forms\Components\Section::make(__('filament-resources.presets.sections.filters'))
+                ->schema([
+                    Forms\Components\Select::make('filters.format')
+                        ->label(__('filament-resources.events.fields.format'))
+                        ->options(EventFormat::getLabels()),
 
-                        Forms\Components\Select::make('filters.city_id')
-                            ->label(__('filament-resources.events.fields.city_id'))
-                            ->options(City::pluck('title', 'id')),
+                    Forms\Components\Select::make('filters.city_id')
+                        ->label(__('filament-resources.events.fields.city_id'))
+                        ->options(City::pluck('title', 'id')),
 
-                        Forms\Components\Select::make('filters.industry_id')
-                            ->label(__('filament-resources.events.fields.industry_id'))
-                            ->options(Industry::pluck('title', 'id')),
-                    ])
-                    ->columns(3),
+                    Forms\Components\Select::make('filters.industry_id')
+                        ->label(__('filament-resources.events.fields.industry_id'))
+                        ->options(Industry::pluck('title', 'id')),
+                ])
+                ->columns(3),
 
-                Forms\Components\Toggle::make('is_active')
-                    ->label(__('filament-resources.presets.fields.is_active'))
-                    ->default(true),
-            ]);
+            Forms\Components\Toggle::make('is_active')
+                ->label(__('filament-resources.presets.fields.is_active'))
+                ->default(true),
+        ];
     }
 
     public static function table(Table $table): Table
@@ -107,7 +109,7 @@ class PresetResource extends Resource
                         $clone->title = $clone->title . ' (копия)';
                         $clone->slug = $clone->slug . '-copy';
                         $clone->save();
-                        
+
                         Notification::make()
                             ->title('Пресет скопирован')
                             ->success()

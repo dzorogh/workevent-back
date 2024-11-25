@@ -22,7 +22,7 @@ class SearchEventsRequest extends FormRequest
             'industry_id' => ['nullable', 'exists:industries,id'],
             'date_from' => ['nullable', 'integer', 'before_or_equal:date_to'],
             'date_to' => ['nullable', 'integer', 'after_or_equal:date_from'],
-            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'per_page' => ['nullable', 'integer', 'min:0', 'max:100'],
             'page' => ['nullable', 'integer', 'min:1', 'max:1000'],
             'is_priority' => ['nullable', 'in:true,false'],
         ];

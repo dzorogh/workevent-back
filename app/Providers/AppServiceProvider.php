@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Event;
 use App\Models\Metadata;
 use App\Models\Page;
+use App\Models\Preset;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
@@ -17,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
         'event' => Event::class,
         'metadata' => Metadata::class,
         'page' => Page::class,
+        'preset' => Preset::class,
     ];
 
 

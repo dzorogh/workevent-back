@@ -26,6 +26,7 @@ class PresetController extends Controller
 
     public function show(Preset $preset)
     {
+        $preset->load('metadata');
         return new PresetResource($preset);
     }
 }
