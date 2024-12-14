@@ -18,7 +18,13 @@ class EventController extends Controller
 
     public function index(SearchEventsRequest $request)
     {
-        $result = $this->searchService->search(EventSearchParameters::fromArray($request->validated()));
+        $params = EventSearchParameters::fromArray($request->validated());
+
+        if (!$params->dateFrom) {
+            $params->setDateFrom(now()->getTimestamp());
+        }
+
+        $result = $this->searchService->search($params);
 
         return new SearchEventsResource($result);
     }

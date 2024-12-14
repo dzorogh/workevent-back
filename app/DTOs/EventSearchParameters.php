@@ -2,7 +2,7 @@
 
 namespace App\DTOs;
 
-readonly class EventSearchParameters
+class EventSearchParameters
 {
     public function __construct(
         public ?string $query = null,
@@ -29,6 +29,16 @@ readonly class EventSearchParameters
             perPage: $params['per_page'] ?? 12,
             isPriority: $params['is_priority'] ?? false,
         );
+    }
+
+    public function setDateFrom(string $date): void
+    {
+        $this->dateFrom = $date;
+    }
+
+    public function setDateTo(string $date): void
+    {
+        $this->dateTo = $date;
     }
 
     public function toArray()
