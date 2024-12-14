@@ -70,6 +70,9 @@ class PresetResource extends Resource
             Forms\Components\Toggle::make('is_active')
                 ->label(__('filament-resources.presets.fields.is_active'))
                 ->default(true),
+
+            Forms\Components\MarkdownEditor::make('description')
+                ->label(__('filament-resources.presets.fields.description')), 
         ];
     }
 

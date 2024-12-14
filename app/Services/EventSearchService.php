@@ -20,7 +20,8 @@ class EventSearchService
         $searchResult = new SearchResult($query->raw());
 
         $events = Event::hydrate($searchResult->getHits());
-        $events->load(['city', 'industry']);
+
+        $events->load(['city', 'industry', 'media']);
 
         $meta = new PaginatorMetaDTO(
             current_page: $searchResult->getPage(),
@@ -35,11 +36,13 @@ class EventSearchService
             industry_id: $params->industryId
         );
 
-        $query = Preset::query();
+        $presetsQuery = Preset::query();
+
         foreach (get_object_vars($presetFilters) as $key => $value) {
-            $query->where("filters->{$key}", $value);
+            $presetsQuery->where("filters->{$key}", $value);
         }
-        $presets = $query->orderBy('sort_order')->get();
+
+        $presets = $presetsQuery->orderBy('sort_order')->get();
 
         return new EventSearchResult(
             events: $events,

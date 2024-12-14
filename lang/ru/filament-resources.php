@@ -237,6 +237,7 @@ return [
             'slug' => 'URL-метка',
             'is_active' => 'Активна',
             'sort_order' => 'Порядок сортировки',
+            'description' => 'Описание',
         ],
     ],
 

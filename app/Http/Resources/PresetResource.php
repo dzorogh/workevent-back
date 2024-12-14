@@ -26,6 +26,8 @@ class PresetResource extends JsonResource
             'slug' => $this->slug,
             'filters' => new PresetFiltersResource(PresetFiltersDTO::fromArray($this->filters)),
             'metadata' => MetadataResource::make($this->whenLoaded('metadata')),
+            'description' => $this->description,
+            'sort_order' => $this->sort_order,
         ];
     }
 }

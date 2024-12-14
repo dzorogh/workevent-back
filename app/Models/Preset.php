@@ -17,6 +17,7 @@ class Preset extends Model implements HasMetadataContract
         'filters',
         'is_active',
         'sort_order',
+        'description',
     ];
 
     protected $casts = [
