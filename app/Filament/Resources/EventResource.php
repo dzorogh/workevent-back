@@ -98,14 +98,16 @@ class EventResource extends Resource
                 ->reorderable()
                 ->image()
                 ->imageEditor()
-                ->maxFiles(10)
+                ->imageEditorAspectRatios([
+                    '16:9',
+                ])
+                ->imageEditorMode(2)
+                
                 ->columnSpanFull()
                 ->downloadable()
                 ->panelLayout('grid')
-                ->panelAspectRatio('16:9')
                 ->removeUploadedFileButtonPosition('right')
-                ->uploadProgressIndicatorPosition('left')
-                ->hint(__('filament-resources.events.hints.gallery')),
+                ->uploadProgressIndicatorPosition('left'),
 
             MarkdownEditor::make('description')
                 ->label(__('filament-resources.events.fields.description'))

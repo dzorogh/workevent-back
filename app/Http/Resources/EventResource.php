@@ -31,6 +31,9 @@ class EventResource extends JsonResource
             'format' => $this->resource->format,
             'format_label' => $this->resource->format->getLabel(),
             'website' => $this->resource->website,
+            'phone' => $this->resource->phone,
+            'email' => $this->resource->email,
+
             'sort_order' => $this->resource->sort_order,
             'city_id' => $this->resource->city_id,
             'city' => CityResource::make($this->whenLoaded('city')),
