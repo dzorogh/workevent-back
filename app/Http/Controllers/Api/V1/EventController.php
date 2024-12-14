@@ -6,6 +6,7 @@ use App\DTOs\EventSearchParameters;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\SearchEventsRequest;
 use App\Http\Resources\EventResource;
+use App\Http\Resources\IdResource;
 use App\Http\Resources\SearchEventsResource;
 use App\Models\Event;
 use App\Services\EventSearchService;
@@ -27,6 +28,14 @@ class EventController extends Controller
         $result = $this->searchService->search($params);
 
         return new SearchEventsResource($result);
+    }
+
+    public function allIds()
+    {
+        $ids = Event::whereDate('start_date', '>=', now()->format('Y-m-d'))
+            ->pluck('id');
+
+        return IdResource::collection($ids);
     }
 
     public function show(Event $event)

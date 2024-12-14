@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\DTOs\EventSearchParameters;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PresetDetailResource;
 use App\Http\Resources\PresetResource;
+use App\Http\Resources\SlugResource;
 use App\Models\Preset;
 use App\Services\EventSearchService;
 
@@ -21,6 +20,14 @@ class PresetController extends Controller
             Preset::where('is_active', true)
                 ->orderBy('sort_order')
                 ->get()
+        );
+    }
+
+    public function allSlugs()
+    {
+        return SlugResource::collection(
+            Preset::where('is_active', true)
+                ->pluck('slug')
         );
     }
 
