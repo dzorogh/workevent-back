@@ -24,9 +24,9 @@ class EventController extends Controller
     {
         $params = EventSearchParameters::fromArray($request->validated());
 
-        // if (!$params->dateFrom) {
-        //     $params->setDateFrom(now()->getTimestamp());
-        // }
+        if (!$params->dateFrom) {
+            $params->setDateFrom(now()->getTimestamp());
+        }
 
         $result = $this->searchService->search($params);
 
@@ -60,6 +60,6 @@ class EventController extends Controller
 
         $presets = $this->presetService->getPresetsWithOptionalFilters($presetFilters);
 
-        return (new EventResource($event))->additional(['presets' => $presets]);
+        return new EventResource($event))->additional(['presets' => $presets]);
     }
 }
