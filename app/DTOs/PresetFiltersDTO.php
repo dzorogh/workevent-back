@@ -2,10 +2,12 @@
 
 namespace App\DTOs;
 
+use App\Enums\EventFormat;
+
 class PresetFiltersDTO
 {
     public function __construct(
-        public ?string $format = null,
+        public ?EventFormat $format = null,
         public ?int $city_id = null,
         public ?int $industry_id = null,
     ) {}

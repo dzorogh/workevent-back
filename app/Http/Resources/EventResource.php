@@ -6,12 +6,17 @@ use App\Models\Event;
 use App\Traits\HasMetadataResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
 
 /**
  * @property Event $resource
  */
 class EventResource extends JsonResource
 {
+    public function __construct(
+        public $resource,
+        public Collection $presets
+    ) {}
 
     public function toArray(Request $request): array
     {
@@ -42,6 +47,7 @@ class EventResource extends JsonResource
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'metadata' => MetadataResource::make($this->whenLoaded('metadata')),
             'tariffs' => TariffResource::collection($this->whenLoaded('tariffs')),
+            'presets' => PresetResource::collection($this->presets),
         ];
     }
 }

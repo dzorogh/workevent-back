@@ -13,6 +13,10 @@ use Meilisearch\Search\SearchResult;
 
 class EventSearchService
 {
+    public function __construct(
+        private readonly PresetService $presetService
+    ) {}
+
     public function search(EventSearchParameters $params): EventSearchResult
     {
         $query = $this->buildSearchQuery($params);
@@ -36,13 +40,7 @@ class EventSearchService
             industry_id: $params->industryId
         );
 
-        $presetsQuery = Preset::query();
-
-        foreach (get_object_vars($presetFilters) as $key => $value) {
-            $presetsQuery->where("filters->{$key}", $value);
-        }
-
-        $presets = $presetsQuery->orderBy('sort_order')->get();
+        $presets = $this->presetService->getPresets($presetFilters);
 
         return new EventSearchResult(
             events: $events,

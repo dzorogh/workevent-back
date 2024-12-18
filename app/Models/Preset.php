@@ -6,6 +6,7 @@ use App\Contracts\HasMetadataContract;
 use App\Traits\HasMetadata;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Casts\PresetFilters;
 
 class Preset extends Model implements HasMetadataContract
 {
@@ -21,7 +22,7 @@ class Preset extends Model implements HasMetadataContract
     ];
 
     protected $casts = [
-        'filters' => 'array',
+        'filters' => PresetFilters::class,
         'is_active' => 'boolean',
         'sort_order' => 'integer',
     ];

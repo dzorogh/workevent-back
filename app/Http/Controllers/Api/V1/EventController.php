@@ -10,11 +10,14 @@ use App\Http\Resources\IdResource;
 use App\Http\Resources\SearchEventsResource;
 use App\Models\Event;
 use App\Services\EventSearchService;
+use App\Services\PresetService;
+use App\DTOs\PresetFiltersDTO;
 
 class EventController extends Controller
 {
     public function __construct(
-        private readonly EventSearchService $searchService
+        private readonly EventSearchService $searchService,
+        private readonly PresetService $presetService
     ) {}
 
     public function index(SearchEventsRequest $request)
@@ -49,6 +52,14 @@ class EventController extends Controller
             'tags',
         ]);
 
-        return new EventResource($event);
+        $presetFilters = new PresetFiltersDTO(
+            format: $event->format,
+            city_id: $event->city_id,
+            industry_id: $event->industry_id
+        );
+
+        $presets = $this->presetService->getPresetsWithOptionalFilters($presetFilters);
+
+        return new EventResource($event, $presets);
     }
 }
