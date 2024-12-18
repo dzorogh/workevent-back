@@ -19,11 +19,13 @@ class SearchEventsResource extends JsonResource
     public function toArray(Request $request): array
     {
         $meta = $this->result->getMeta();
-        
-        return [
-            'data' => EventResource::collection($this->resource),
 
-            'presets' => PresetResource::collection($this->result->getPresets()),
+        $presets = $this->result->getPresets();
+
+        return [
+            'data' => EventResource::collection($this->resource)->additional(['presets' => $presets]),
+
+            'presets' => PresetResource::collection($presets),
 
             /** @var array<string, array<string>> */
             'facets' => $this->result->getFacets(),

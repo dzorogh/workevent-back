@@ -13,11 +13,6 @@ use Illuminate\Support\Collection;
  */
 class EventResource extends JsonResource
 {
-    public function __construct(
-        public $resource,
-        public Collection $presets
-    ) {}
-
     public function toArray(Request $request): array
     {
         return [
@@ -47,7 +42,6 @@ class EventResource extends JsonResource
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'metadata' => MetadataResource::make($this->whenLoaded('metadata')),
             'tariffs' => TariffResource::collection($this->whenLoaded('tariffs')),
-            'presets' => PresetResource::collection($this->presets),
         ];
     }
 }
