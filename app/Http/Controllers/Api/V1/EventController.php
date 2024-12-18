@@ -60,6 +60,6 @@ class EventController extends Controller
 
         $presets = $this->presetService->getPresetsWithOptionalFilters($presetFilters);
 
-        return new EventResource($event))->additional(['presets' => $presets]);
+        return (new EventResource($event))->additional(['presets' => $presets]);
     }
 }
