@@ -12,6 +12,8 @@ use App\Models\Event;
 use App\Services\EventSearchService;
 use App\Services\PresetService;
 use App\DTOs\PresetFiltersDTO;
+use Illuminate\Support\Collection;
+use App\Http\Resources\PresetResource;
 
 class EventController extends Controller
 {
@@ -60,6 +62,6 @@ class EventController extends Controller
 
         $presets = $this->presetService->getPresetsWithOptionalFilters($presetFilters);
 
-        return (new EventResource($event))->additional(['presets' => $presets]);
+        return (new EventResource($event))->additional(['presets' => PresetResource::collection($presets)]);
     }
 }

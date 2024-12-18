@@ -4,10 +4,14 @@ namespace App\Services;
 
 use App\DTOs\PresetFiltersDTO;
 use App\Models\Preset;
+use Illuminate\Support\Collection;
 
 class PresetService
 {
-    public function getPresets(PresetFiltersDTO $presetFilters)
+    /**
+     * @return Collection<Preset>
+     */
+    public function getPresets(PresetFiltersDTO $presetFilters): Collection
     {
         $presetsQuery = Preset::query();
 
@@ -20,7 +24,10 @@ class PresetService
         return $presets;
     }
 
-    public function getPresetsWithOptionalFilters(PresetFiltersDTO $presetFilters)
+    /**
+     * @return Collection<Preset>
+     */
+    public function getPresetsWithOptionalFilters(PresetFiltersDTO $presetFilters): Collection
     {
         $presetsQuery = Preset::query();
 
