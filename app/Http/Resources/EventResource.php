@@ -3,10 +3,9 @@
 namespace App\Http\Resources;
 
 use App\Models\Event;
-use App\Traits\HasMetadataResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Collection;
+use App\Http\Resources\VenueResource;
 
 /**
  * @property Event $resource
@@ -42,6 +41,8 @@ class EventResource extends JsonResource
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'metadata' => MetadataResource::make($this->whenLoaded('metadata')),
             'tariffs' => TariffResource::collection($this->whenLoaded('tariffs')),
+            'venue_id' => $this->resource->venue_id,
+            'venue' => VenueResource::make($this->whenLoaded('venue')),
         ];
     }
 }

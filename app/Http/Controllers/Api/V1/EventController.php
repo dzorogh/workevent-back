@@ -52,6 +52,7 @@ class EventController extends Controller
             'metadata',
             'tariffs',
             'tags',
+            'venue',
         ]);
 
         $presetFilters = new PresetFiltersDTO(
