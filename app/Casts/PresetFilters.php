@@ -5,8 +5,8 @@ namespace App\Casts;
 use App\DTOs\PresetFiltersDTO;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
-use InvalidArgumentException;
-use App\Enums\EventFormat;
+use App\ValueObjects\PresetFilters as PresetFiltersValueObject;
+
 class PresetFilters implements CastsAttributes
 {
     /**
@@ -14,15 +14,11 @@ class PresetFilters implements CastsAttributes
      *
      * @param  array<string, mixed>  $attributes
      */
-    public function get(Model $model, string $key, mixed $value, array $attributes): PresetFiltersDTO
+    public function get(Model $model, string $key, mixed $value, array $attributes): PresetFiltersValueObject
     {
         $filters = json_decode($attributes['filters'], true);
-
-        return new PresetFiltersDTO(
-            format: $filters['format'] ? EventFormat::from($filters['format']) : null,
-            city_id: $filters['city_id'] ?? null,
-            industry_id: $filters['industry_id'] ?? null
-        );
+        
+        return PresetFiltersValueObject::fromArray($filters);
     }
  
     /**
@@ -33,14 +29,12 @@ class PresetFilters implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes): array
     {
-        if (! $value instanceof PresetFiltersDTO) {
-            throw new InvalidArgumentException('The given value is not an Preset Filters instance.');
+        if (! $value instanceof PresetFiltersValueObject) {
+            $value = PresetFiltersValueObject::fromArray($value);
         }
- 
+
         return [
-            'format' => $value->format,
-            'city_id' => $value->city_id,
-            'industry_id' => $value->industry_id,
+            'filters' => json_encode($value->jsonSerialize()),
         ];
     }
 }
