@@ -61,6 +61,7 @@ class EventSearchService
                 'page' => $params->page,
                 'hitsPerPage' => $params->perPage,
                 'filter' => $filter,
+                'sort' => $query ? null : ['start_date:asc'],
                 'attributesToRetrieve' => [
                     'id',
                     'title',
