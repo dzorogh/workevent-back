@@ -7,9 +7,9 @@ use App\DTOs\EventSearchResult;
 use App\DTOs\PaginatorMetaDTO;
 use App\DTOs\PresetFiltersDTO;
 use App\Models\Event;
-use App\Models\Preset;
 use Meilisearch\Endpoints\Indexes;
 use Meilisearch\Search\SearchResult;
+use App\Enums\EventFormat;
 
 class EventSearchService
 {
@@ -35,7 +35,7 @@ class EventSearchService
         );
 
         $presetFilters = new PresetFiltersDTO(
-            format: $params->format,
+            format: EventFormat::tryFrom($params->format),
             city_id: $params->cityId,
             industry_id: $params->industryId
         );
@@ -61,6 +61,18 @@ class EventSearchService
                 'page' => $params->page,
                 'hitsPerPage' => $params->perPage,
                 'filter' => $filter,
+                'attributesToRetrieve' => [
+                    'id',
+                    'title',
+                    'slug',
+                    'start_date',
+                    'end_date',
+                    'format',
+                    'city_id',
+                    'industry_id',
+                    'is_priority',
+                    'is_active',
+                ]
             ]);
         });
     }
