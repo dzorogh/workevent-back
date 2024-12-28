@@ -12,7 +12,7 @@ class IndustryResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'events_count' => $this->whenCounted('events'),  // Optional
+            'events_count' => $this->whenCounted('events'),
         ];
     }
 }

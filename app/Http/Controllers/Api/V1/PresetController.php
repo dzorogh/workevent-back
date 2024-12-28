@@ -7,6 +7,8 @@ use App\Http\Resources\PresetResource;
 use App\Http\Resources\SlugResource;
 use App\Models\Preset;
 use App\Services\EventSearchService;
+use Illuminate\Support\Facades\Cache;
+use App\Enums\CacheKeys;
 
 class PresetController extends Controller
 {
@@ -16,19 +18,23 @@ class PresetController extends Controller
 
     public function index()
     {
-        return PresetResource::collection(
-            Preset::where('is_active', true)
+        return Cache::remember(CacheKeys::ACTIVE_PRESETS->value, 3600, function () {
+            $presets = Preset::where('is_active', true)
                 ->orderBy('sort_order')
-                ->get()
-        );
+                ->get();
+
+            return PresetResource::collection($presets);
+        });
     }
 
     public function allSlugs()
     {
-        return SlugResource::collection(
-            Preset::where('is_active', true)
-                ->pluck('slug')
-        );
+        return Cache::remember(CacheKeys::ACTIVE_PRESETS_SLUGS->value, 3600, function () {
+            $presets = Preset::where('is_active', true)
+                ->pluck('slug');
+
+            return SlugResource::collection($presets);
+        });
     }
 
     public function show(Preset $preset)

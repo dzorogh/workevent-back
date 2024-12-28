@@ -49,12 +49,14 @@ class IndustryResource extends Resource
                             ->schema([
                                 Forms\Components\Placeholder::make('events_count')
                                     ->label(__('filament-resources.industries.fields.events_count'))
-                                    ->content(fn(?Industry $record): string => $record ? $record->events()->count() : '0'
+                                    ->content(
+                                        fn(?Industry $record): string => $record ? $record->events()->count() : '0'
                                     ),
 
                                 Forms\Components\Placeholder::make('created_at')
                                     ->label(__('filament-resources.timestamps.created_at'))
-                                    ->content(fn(?Industry $record): string => $record ? $record->created_at->diffForHumans() : '-'
+                                    ->content(
+                                        fn(?Industry $record): string => $record ? $record->created_at->diffForHumans() : '-'
                                     ),
                             ])
                             ->columns(2)

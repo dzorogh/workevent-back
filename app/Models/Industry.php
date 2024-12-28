@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
+use App\Enums\CacheKeys;
 
 class Industry extends Model
 {
@@ -20,7 +21,7 @@ class Industry extends Model
         parent::boot();
 
         static::saved(function () {
-            Cache::forget('active_industries');
+            Cache::forget(CacheKeys::ACTIVE_INDUSTRIES->value);
         });
     }
 }
