@@ -52,11 +52,8 @@ class IndustryController extends Controller
      */
     public function allSlugs()
     {   
-        return Cache::remember(CacheKeys::ACTIVE_PRESETS_SLUGS->value, 3600, function () {
-            $industries = Industry::whereHas('events', function ($query) {
-                $query->active();
-            })
-                ->pluck('slug');
+        return Cache::remember(CacheKeys::INDUSTRIES_SLUGS->value, 3600, function () {
+            $industries = Industry::pluck('slug');
 
             return SlugResource::collection($industries);
         });
