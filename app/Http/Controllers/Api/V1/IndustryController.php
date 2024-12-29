@@ -7,15 +7,23 @@ use App\Http\Resources\IndustryResource;
 use App\Models\Industry;
 use Illuminate\Support\Facades\Cache;
 use App\Enums\CacheKeys;
+use Illuminate\Http\Resources\AnonymousResourceCollection;
 
 class IndustryController extends Controller
 {
+    /**
+     * Industries
+     * 
+     * Array of `IndustryResource`
+     * 
+     * @response array{data: IndustryResource[]}
+     */
     public function index()
     {
         return Cache::remember(CacheKeys::ACTIVE_INDUSTRIES->value, 3600, function () {
             $industries = Industry::query()
                 ->whereHas('events', function ($query) {
-                    $query->active();  // Assuming you have an active scope
+                    $query->active(); 
                 })
                 ->withCount('events')
                 ->orderBy('sort_order')
@@ -25,11 +33,23 @@ class IndustryController extends Controller
         });
     }
 
+    /**
+     * Industry
+     * 
+     * @response IndustryResource
+     */
     public function show(Industry $industry)
     {
         return new IndustryResource($industry);
     }
 
+    /**
+     * Industry Slugs
+     * 
+     * Array of industry slugs
+     * 
+     * @response array{data: string[]}
+     */
     public function allSlugs()
     {
         return Cache::remember(CacheKeys::INDUSTRIES_SLUGS->value, 3600, function () {
