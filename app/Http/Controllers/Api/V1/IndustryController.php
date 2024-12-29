@@ -7,7 +7,7 @@ use App\Http\Resources\IndustryResource;
 use App\Models\Industry;
 use Illuminate\Support\Facades\Cache;
 use App\Enums\CacheKeys;
-use Illuminate\Http\Resources\AnonymousResourceCollection;
+use App\Http\Resources\SlugResource;
 
 class IndustryController extends Controller
 {
@@ -43,17 +43,22 @@ class IndustryController extends Controller
         return new IndustryResource($industry);
     }
 
-    /**
-     * Industry Slugs
+   /**
+     * Preset Slugs
      * 
-     * Array of industry slugs
+     * Array of preset slugs
      * 
-     * @response array{data: string[]}
+     * @response array{data: SlugResource[]}
      */
     public function allSlugs()
-    {
-        return Cache::remember(CacheKeys::INDUSTRIES_SLUGS->value, 3600, function () {
-            return Industry::query()->pluck('slug');
+    {   
+        return Cache::remember(CacheKeys::ACTIVE_PRESETS_SLUGS->value, 3600, function () {
+            $industries = Industry::whereHas('events', function ($query) {
+                $query->active();
+            })
+                ->pluck('slug');
+
+            return SlugResource::collection($industries);
         });
     }
 }

@@ -39,7 +39,7 @@ class PresetController extends Controller
      * 
      * Array of preset slugs
      * 
-     * @response array{data: string[]}
+     * @response array{data: SlugResource[]}
      */
     public function allSlugs()
     {
