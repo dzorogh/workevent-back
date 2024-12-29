@@ -184,6 +184,7 @@ return [
         'plural_label' => 'Отрасли',
         'fields' => [
             'title' => 'Название',
+            'slug' => 'URL-метка',
             'events_count' => 'Мероприятий',
         ],
         'filters' => [

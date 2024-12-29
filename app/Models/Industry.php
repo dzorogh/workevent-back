@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
 use App\Enums\CacheKeys;
+use Illuminate\Support\Str;
 
 class Industry extends Model
 {
-    protected $fillable = ['title', 'sort_order'];
+    protected $fillable = ['title', 'sort_order', 'slug'];
 
     public function events(): HasMany
     {
@@ -23,5 +24,15 @@ class Industry extends Model
         static::saved(function () {
             Cache::forget(CacheKeys::ACTIVE_INDUSTRIES->value);
         });
+
+        static::deleted(function () {
+            Cache::forget(CacheKeys::ACTIVE_INDUSTRIES->value);
+        }); 
+
+        static::created(function (Industry $industry) {
+            $industry->slug = Str::slug($industry->title);
+            $industry->save();
+        });
     }
 }
+

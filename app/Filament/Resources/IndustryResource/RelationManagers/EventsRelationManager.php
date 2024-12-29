@@ -7,6 +7,8 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Models\Event;
+use App\Filament\Resources\EventResource;
 
 class EventsRelationManager extends RelationManager
 {
@@ -56,7 +58,7 @@ class EventsRelationManager extends RelationManager
                 // No create/attach actions as events should be managed from the Event resource
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+
             ])
             ->bulkActions([
                 // No bulk actions needed

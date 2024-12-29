@@ -45,6 +45,11 @@ class IndustryResource extends Resource
                             ->required()
                             ->maxLength(255),
 
+                        Forms\Components\TextInput::make('slug')
+                            ->label(__('filament-resources.industries.fields.slug'))
+                            ->required()
+                            ->maxLength(255),
+
                         Forms\Components\Grid::make()
                             ->schema([
                                 Forms\Components\Placeholder::make('events_count')
