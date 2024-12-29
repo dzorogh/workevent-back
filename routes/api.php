@@ -24,6 +24,8 @@ Route::prefix('v1')->group(function () {
     Route::get('presets/{preset:slug}', [PresetController::class, 'show']);
 
     Route::get('industries', [IndustryController::class, 'index']);
+    Route::get('industries/slugs', [IndustryController::class, 'allSlugs']);  
+    Route::get('industries/{industry}', [IndustryController::class, 'show']);
 
     Route::get('cities', [CityController::class, 'index']);
 
