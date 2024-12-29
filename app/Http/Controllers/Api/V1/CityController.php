@@ -10,6 +10,13 @@ use App\Enums\CacheKeys;
 
 class CityController extends Controller
 {
+    /**
+     * Cities
+     * 
+     * Array of `CityResource`
+     * 
+     * @response array{data: CityResource[]}
+     */
     public function index()
     {
         return Cache::remember(CacheKeys::ACTIVE_CITIES->value, 3600, function () {

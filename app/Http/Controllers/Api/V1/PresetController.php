@@ -16,6 +16,13 @@ class PresetController extends Controller
         private readonly EventSearchService $searchService
     ) {}
 
+    /**
+     * Presets
+     * 
+     * Array of `PresetResource`
+     * 
+     * @response array{data: PresetResource[]}
+     */
     public function index()
     {
         return Cache::remember(CacheKeys::ACTIVE_PRESETS->value, 3600, function () {
@@ -27,6 +34,13 @@ class PresetController extends Controller
         });
     }
 
+    /**
+     * Preset Slugs
+     * 
+     * Array of preset slugs
+     * 
+     * @response array{data: string[]}
+     */
     public function allSlugs()
     {
         return Cache::remember(CacheKeys::ACTIVE_PRESETS_SLUGS->value, 3600, function () {
@@ -37,6 +51,11 @@ class PresetController extends Controller
         });
     }
 
+    /**
+     * Preset
+     * 
+     * @response PresetResource
+     */
     public function show(Preset $preset)
     {
         $preset->load('metadata');
