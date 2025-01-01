@@ -243,4 +243,14 @@ return [
         'label' => 'Страница',
         'plural_label' => 'Страницы',
     ],
+
+    'posts' => [
+        'label' => 'Статья',
+        'plural_label' => 'Статьи',
+        'fields' => [
+            'title' => 'Название',
+            'content' => 'Содержание',
+            'cover' => 'Обложка',
+        ],
+    ],
 ];

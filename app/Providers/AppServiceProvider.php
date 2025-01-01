@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
+use App\Models\Post;
+use App\Models\User;
 use Meilisearch\Client;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
         'metadata' => Metadata::class,
         'page' => Page::class,
         'preset' => Preset::class,
+        'post' => Post::class,
+        'user' => User::class,
     ];
 
 
