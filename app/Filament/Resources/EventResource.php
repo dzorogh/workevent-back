@@ -29,6 +29,9 @@ use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 use App\Enums\EventFormat;
 use App\Filament\Resources\EventResource\RelationManagers\TariffsRelationManager;
 use App\Filament\Forms\Components\MetadataForm;
+use Filament\Tables\Filters\DateFilter;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
+use Carbon\Carbon;
 
 class EventResource extends Resource
 {
@@ -102,7 +105,7 @@ class EventResource extends Resource
                     '16:9',
                 ])
                 ->imageEditorMode(2)
-                
+
                 ->columnSpanFull()
                 ->downloadable()
                 ->panelLayout('grid')
@@ -236,11 +239,16 @@ class EventResource extends Resource
         ];
     }
 
+    protected function shouldPersistTableSortInSession(): bool
+    {
+        return true;
+    }
+
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultSort('sort_order', 'desc')
-            ->reorderable('sort_order')
+            // ->reorderable('sort_order')
+            // ->defaultSort('start_date', 'asc')
             ->contentGrid([
                 'md' => 2,
                 'lg' => 3,
@@ -272,6 +280,7 @@ class EventResource extends Resource
                     Tables\Columns\Layout\Grid::make(2)
                         ->schema([
                             Tables\Columns\TextColumn::make('start_date')
+                                ->sortable()
                                 ->label(__('filament-resources.events.fields.start_date'))
                                 ->date('d.m.Y')
                                 ->icon('heroicon-m-calendar')
@@ -291,6 +300,11 @@ class EventResource extends Resource
                     ->relationship('city', 'title'),
                 Tables\Filters\SelectFilter::make('industry')
                     ->relationship('industry', 'title'),
+                DateRangeFilter::make('start_date')
+                    ->label(__('filament-resources.events.fields.start_date'))
+                    ->defaultCustom(Carbon::now(), Carbon::now()->endOfYear()),
+                Tables\Filters\TernaryFilter::make('is_priority')
+                    ->label(__(key: 'filament-resources.events.fields.is_priority')),
             ]);
     }
 

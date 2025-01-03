@@ -16,4 +16,8 @@ class ListEvents extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    public ?string $tableSortColumn = 'start_date';
+
+    public ?string $tableSortDirection = 'asc';
 }
