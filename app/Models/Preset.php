@@ -9,7 +9,8 @@ use Illuminate\Support\Str;
 use App\Casts\PresetFilters;
 use Illuminate\Support\Facades\Cache;
 use App\Enums\CacheKeys;
-    
+use Illuminate\Support\Facades\Artisan;
+
 class Preset extends Model implements HasMetadataContract
 {
     use HasMetadata;
@@ -42,6 +43,7 @@ class Preset extends Model implements HasMetadataContract
         static::saved(function () {
             Cache::forget(CacheKeys::ACTIVE_PRESETS->value);
             Cache::forget(CacheKeys::ACTIVE_PRESETS_SLUGS->value);
+            Artisan::call('nextjs:revalidate');
         });
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
 use App\Enums\CacheKeys;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Artisan;
 
 class Industry extends Model
 {
@@ -23,11 +24,13 @@ class Industry extends Model
 
         static::saved(function () {
             Cache::forget(CacheKeys::ACTIVE_INDUSTRIES->value);
+            Artisan::call('nextjs:revalidate');
         });
 
         static::deleted(function () {
             Cache::forget(CacheKeys::ACTIVE_INDUSTRIES->value);
-        }); 
+            Artisan::call('nextjs:revalidate');
+        });
 
         static::created(function (Industry $industry) {
             $industry->slug = Str::slug($industry->title);

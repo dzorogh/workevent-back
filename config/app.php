@@ -123,4 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'nextjs_cache_url' => env('NEXTJS_CACHE_URL', ''),
+    'nextjs_cache_secret' => env('NEXTJS_CACHE_SECRET', ''),
 ];

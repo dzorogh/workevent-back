@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Artisan;
 use App\Enums\CacheKeys;
 
 class Series extends Model
@@ -22,6 +23,7 @@ class Series extends Model
 
         static::saved(function () {
             Cache::forget(CacheKeys::ACTIVE_SERIES->value);
+            Artisan::call('nextjs:revalidate');
         });
     }
 }

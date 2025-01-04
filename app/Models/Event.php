@@ -14,7 +14,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Enums\EventFormat;
 use Laravel\Scout\Searchable;
 use App\Traits\HasMetadata;
-
+use Illuminate\Support\Facades\Artisan;
 class Event extends Model implements HasMedia, HasMetadataContract
 {
     use InteractsWithMedia, Searchable, HasMetadata;
@@ -131,5 +131,14 @@ class Event extends Model implements HasMedia, HasMetadataContract
     {
         return $query
             ->where('end_date', '>=', now());
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saved(function () {
+            Artisan::call('nextjs:revalidate');
+        });
     }
 }
