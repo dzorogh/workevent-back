@@ -19,9 +19,9 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'content' => $this->whenHas('content', $this->content),
             'cover' => $this->getFirstMediaUrl('cover'),
-            'created_at' => $this->whenHas('created_at', $this->created_at),
-            'updated_at' => $this->whenHas('updated_at', $this->updated_at),
-            'deleted_at' => $this->whenHas('deleted_at', $this->deleted_at),
+            'created_at' => $this->whenHas('created_at', (string) $this->created_at),
+            'updated_at' => $this->whenHas('updated_at', (string) $this->updated_at),
+            'deleted_at' => $this->whenHas('deleted_at', (string) $this->deleted_at),
         ];
     }
 }

@@ -9,10 +9,11 @@ use App\Traits\HasMetadata;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 
 class Post extends Model implements HasMedia
 {
-    use HasMetadata, InteractsWithMedia;
+    use HasMetadata, InteractsWithMedia, HasTimestamps;
 
     protected $fillable = [
         'title',
