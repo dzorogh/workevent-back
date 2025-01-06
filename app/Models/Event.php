@@ -146,16 +146,15 @@ class Event extends Model implements HasMedia, HasMetadataContract
     {
         parent::boot();
 
-        static::saving(function (Event $event) {
+        static::saved(function (Event $event) {
+            Artisan::queue('nextjs:revalidate');
+
             if ($event->industry_id) {
                 $event->industries()->syncWithoutDetaching($event->industry_id);
             } else {
                 $event->industry_id = $event->industries()->first()->id;
+                $event->save();
             }
-        });
-
-        static::saved(function (Event $event) {
-            Artisan::queue('nextjs:revalidate');
         });
     }
 }
