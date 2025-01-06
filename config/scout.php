@@ -146,6 +146,7 @@ return [
                     'format',
                     'city_id',
                     'industry_id',
+                    'industries_ids',
                     'start_date',
                     'end_date',
                     'is_priority',

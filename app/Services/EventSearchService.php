@@ -71,6 +71,7 @@ class EventSearchService
                     'format',
                     'city_id',
                     'industry_id',
+                    'industries_ids',
                     'is_priority',
                     'is_active',
                 ]
@@ -89,7 +90,11 @@ class EventSearchService
             $filters[] = "city_id = {$params->cityId}";
         }
         if ($params->industryId) {
-            $filters[] = "industry_ids = {$params->industryId}";
+            // search by industry_id or industries_ids
+            $filters[] = [
+                "industry_id = {$params->industryId}",
+                "industries_ids = {$params->industryId}",
+            ];
         }
         if ($params->dateFrom) {
             $filters[] = "start_date >= {$params->dateFrom}";

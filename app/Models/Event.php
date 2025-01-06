@@ -105,6 +105,8 @@ class Event extends Model implements HasMedia, HasMetadataContract
 
     public function toSearchableArray(): array
     {
+        $this->load('industries');
+        $this->load('industry');
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -117,8 +119,8 @@ class Event extends Model implements HasMedia, HasMetadataContract
             'city_title' => $this->city->title,
             'industry_id' => $this->industry_id,
             'industry_title' => $this->industry->title,
-            'industries_titles' => $this->industries->pluck('title'),
             'industries_ids' => $this->industries->pluck('id'),
+            'industries_titles' => $this->industries->pluck('title'),
             'is_priority' => $this->is_priority,
         ];
     }
