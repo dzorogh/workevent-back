@@ -15,9 +15,11 @@ use App\Enums\EventFormat;
 use Laravel\Scout\Searchable;
 use App\Traits\HasMetadata;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Event extends Model implements HasMedia, HasMetadataContract
 {
-    use InteractsWithMedia, Searchable, HasMetadata;
+    use InteractsWithMedia, Searchable, HasMetadata, SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -57,6 +59,11 @@ class Event extends Model implements HasMedia, HasMetadataContract
     public function industry(): BelongsTo
     {
         return $this->belongsTo(Industry::class);
+    }
+
+    public function industries(): BelongsToMany
+    {
+        return $this->belongsToMany(Industry::class);
     }
 
     public function tags(): BelongsToMany
@@ -110,6 +117,8 @@ class Event extends Model implements HasMedia, HasMetadataContract
             'city_title' => $this->city->title,
             'industry_id' => $this->industry_id,
             'industry_title' => $this->industry->title,
+            'industries_titles' => $this->industries->pluck('title'),
+            'industries_ids' => $this->industries->pluck('id'),
             'is_priority' => $this->is_priority,
         ];
     }
@@ -137,8 +146,16 @@ class Event extends Model implements HasMedia, HasMetadataContract
     {
         parent::boot();
 
-        static::saved(function () {
-            Artisan::call('nextjs:revalidate');
+        static::saving(function (Event $event) {
+            if ($event->industry_id) {
+                $event->industries()->syncWithoutDetaching($event->industry_id);
+            } else {
+                $event->industry_id = $event->industries()->first()->id;
+            }
+        });
+
+        static::saved(function (Event $event) {
+            Artisan::queue('nextjs:revalidate');
         });
     }
 }

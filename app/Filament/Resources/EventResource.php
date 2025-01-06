@@ -56,12 +56,15 @@ class EventResource extends Resource
     public static function getResourceFormSchema(): array
     {
         return [
+            Forms\Components\TextInput::make('title')
+                ->label(__('filament-resources.events.fields.title'))
+                ->required()
+                ->columnSpanFull()
+                ->maxLength(255),
+
             Forms\Components\Section::make()
                 ->schema([
-                    Forms\Components\TextInput::make('title')
-                        ->label(__('filament-resources.events.fields.title'))
-                        ->required()
-                        ->maxLength(255),
+
 
                     Forms\Components\Select::make('format')
                         ->label(__('filament-resources.events.fields.format'))
@@ -81,94 +84,38 @@ class EventResource extends Resource
                                 ->unique(Series::class),
                         ])
                         ->createOptionModalHeading(__('filament-resources.event-series.actions.create.heading')),
+
+                    Forms\Components\Select::make('industry_id')
+                        ->label(__('filament-resources.events.fields.industry_id'))
+                        ->relationship('industry', 'title')
+                        ->required()
+                        ->searchable()
+                        ->preload()
+                        ->createOptionForm([
+                            Forms\Components\TextInput::make('title')
+                                ->label(__('filament-resources.industries.fields.title'))
+                                ->required()
+                                ->maxLength(255)
+                                ->unique('industries', 'title'),
+                        ])
+                        ->createOptionModalHeading(__('filament-resources.industries.actions.create.heading')),
+
+                    Forms\Components\Select::make('industries')
+                        ->label(__('filament-resources.events.fields.industries'))
+                        ->relationship('industries', 'title')
+                        ->searchable()
+                        ->preload()
+                        ->multiple()
+                        ->createOptionForm([
+                            Forms\Components\TextInput::make('title')
+                                ->label(__('filament-resources.industries.fields.title'))
+                                ->required()
+                                ->maxLength(255)
+                                ->unique('industries', 'title'),
+                        ])
+                        ->createOptionModalHeading(__('filament-resources.industries.actions.create.heading')),
                 ])
                 ->columns(2),
-
-            SpatieMediaLibraryFileUpload::make('cover')
-                ->label(__('filament-resources.events.fields.cover'))
-                ->collection('cover')
-                ->image()
-                ->imageEditor()
-                ->imageEditorAspectRatios([
-                    '16:9',
-                ])
-                ->columnSpanFull(),
-
-            SpatieMediaLibraryFileUpload::make('gallery')
-                ->label(__('filament-resources.events.fields.gallery'))
-                ->collection('gallery')
-                ->multiple()
-                ->reorderable()
-                ->image()
-                ->imageEditor()
-                ->imageEditorAspectRatios([
-                    '16:9',
-                ])
-                ->imageEditorMode(2)
-
-                ->columnSpanFull()
-                ->downloadable()
-                ->panelLayout('grid')
-                ->removeUploadedFileButtonPosition('right')
-                ->uploadProgressIndicatorPosition('left'),
-
-            MarkdownEditor::make('description')
-                ->label(__('filament-resources.events.fields.description'))
-                ->columnSpanFull(),
-
-            Forms\Components\Grid::make()
-                ->schema([
-                    DatePicker::make('start_date')
-                        ->label(__('filament-resources.events.fields.start_date'))
-                        ->native(false)
-                        ->live()
-                        ->displayFormat('d.m.Y')
-                        ->afterStateUpdated(function (Get $get, Set $set) {
-                            if (blank($get('end_date'))) {
-                                $set('end_date', $get('start_date'));
-                            }
-                        })
-                        ->closeOnDateSelection(),
-
-                    Forms\Components\DatePicker::make('end_date')
-                        ->label(__('filament-resources.events.fields.end_date'))
-                        ->native(false)
-                        ->displayFormat('d.m.Y')
-                        ->afterOrEqual('start_date')
-                        ->closeOnDateSelection(),
-                ])
-                ->columns(2),
-
-            Forms\Components\Select::make('industry_id')
-                ->label(__('filament-resources.events.fields.industry_id'))
-                ->relationship('industry', 'title')
-                ->required()
-                ->searchable()
-                ->preload()
-                ->createOptionForm([
-                    Forms\Components\TextInput::make('title')
-                        ->label(__('filament-resources.industries.fields.title'))
-                        ->required()
-                        ->maxLength(255)
-                        ->unique('industries', 'title'),
-                ])
-                ->createOptionModalHeading(__('filament-resources.industries.actions.create.heading')),
-
-            Select::make('tags')
-                ->label(__('filament-resources.events.fields.tags'))
-                ->relationship('tags', 'title')
-                ->multiple()
-                ->preload()
-                ->searchable()
-                ->createOptionForm([
-                    Forms\Components\TextInput::make('title')
-                        ->label(__('filament-resources.event-tags.fields.title'))
-                        ->required()
-                        ->maxLength(255)
-                        ->unique('tags', 'title'),
-                ])
-                ->createOptionModalHeading(__('filament-resources.event-tags.actions.create.heading'))
-                ->placeholder(__('filament-resources.events.placeholders.tags')),
 
             Forms\Components\Section::make(__('filament-resources.events.sections.location'))
                 ->schema([
@@ -203,6 +150,81 @@ class EventResource extends Resource
                         ]),
                 ])
                 ->columns(2),
+
+            Forms\Components\Section::make(__('filament-resources.events.sections.dates'))
+                ->schema([
+                    DatePicker::make('start_date')
+                        ->label(__('filament-resources.events.fields.start_date'))
+                        ->native(false)
+                        ->live()
+                        ->displayFormat('d.m.Y')
+                        ->afterStateUpdated(function (Get $get, Set $set) {
+                            if (blank($get('end_date'))) {
+                                $set('end_date', $get('start_date'));
+                            }
+                        })
+                        ->closeOnDateSelection(),
+
+                    Forms\Components\DatePicker::make('end_date')
+                        ->label(__('filament-resources.events.fields.end_date'))
+                        ->native(false)
+                        ->displayFormat('d.m.Y')
+                        ->afterOrEqual('start_date')
+                        ->closeOnDateSelection(),
+                ])
+                ->columns(2),
+
+
+            SpatieMediaLibraryFileUpload::make('cover')
+                ->label(__('filament-resources.events.fields.cover'))
+                ->collection('cover')
+                ->image()
+                ->imageEditor()
+                ->imageEditorAspectRatios([
+                    '16:9',
+                ])
+                ->columnSpanFull(),
+
+            SpatieMediaLibraryFileUpload::make('gallery')
+                ->label(__('filament-resources.events.fields.gallery'))
+                ->collection('gallery')
+                ->multiple()
+                ->reorderable()
+                ->image()
+                ->imageEditor()
+                ->imageEditorAspectRatios([
+                    '16:9',
+                ])
+                ->imageEditorMode(2)
+
+                ->columnSpanFull()
+                ->downloadable()
+                ->panelLayout('grid')
+                ->removeUploadedFileButtonPosition('right')
+                ->uploadProgressIndicatorPosition('left'),
+
+            MarkdownEditor::make('description')
+                ->label(__('filament-resources.events.fields.description'))
+                ->columnSpanFull(),
+
+
+
+            Select::make('tags')
+                ->label(__('filament-resources.events.fields.tags'))
+                ->relationship('tags', 'title')
+                ->multiple()
+                ->preload()
+                ->searchable()
+                ->createOptionForm([
+                    Forms\Components\TextInput::make('title')
+                        ->label(__('filament-resources.event-tags.fields.title'))
+                        ->required()
+                        ->maxLength(255)
+                        ->unique('tags', 'title'),
+                ])
+                ->createOptionModalHeading(__('filament-resources.event-tags.actions.create.heading'))
+                ->placeholder(__('filament-resources.events.placeholders.tags')),
+
 
             Forms\Components\Section::make(__('filament-resources.events.sections.settings'))
                 ->schema([
@@ -295,16 +317,21 @@ class EventResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('format')
+                    ->label(__('filament-resources.events.fields.format'))
                     ->options(EventFormat::getLabels()),
                 Tables\Filters\SelectFilter::make('city')
+                    ->label(__('filament-resources.events.fields.city_id'))
                     ->relationship('city', 'title'),
                 Tables\Filters\SelectFilter::make('industry')
+                    ->label(__('filament-resources.events.fields.industry_id'))
                     ->relationship('industry', 'title'),
                 DateRangeFilter::make('start_date')
                     ->label(__('filament-resources.events.fields.start_date'))
                     ->defaultCustom(Carbon::now(), Carbon::now()->endOfYear()),
                 Tables\Filters\TernaryFilter::make('is_priority')
                     ->label(__(key: 'filament-resources.events.fields.is_priority')),
+                Tables\Filters\TrashedFilter::make('trashed')
+                    ->label(__('filament-resources.events.fields.trashed')),
             ]);
     }
 

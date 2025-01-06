@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Traits\HasMetadata;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Support\Facades\Artisan;
 
 class Post extends Model implements HasMedia
 {
@@ -34,6 +35,10 @@ class Post extends Model implements HasMedia
             }
 
             $model->user_id = Auth::id();
+        });
+
+        static::saved(function (Post $post) {
+            Artisan::queue('nextjs:revalidate');
         });
     }
 

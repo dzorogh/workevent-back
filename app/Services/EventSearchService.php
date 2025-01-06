@@ -25,7 +25,7 @@ class EventSearchService
 
         $events = Event::hydrate($searchResult->getHits());
 
-        $events->load(['city', 'industry', 'media']);
+        $events->load(['city', 'industry', 'industries', 'media']);
 
         $meta = new PaginatorMetaDTO(
             current_page: $searchResult->getPage(),
@@ -89,7 +89,7 @@ class EventSearchService
             $filters[] = "city_id = {$params->cityId}";
         }
         if ($params->industryId) {
-            $filters[] = "industry_id = {$params->industryId}";
+            $filters[] = "industry_ids = {$params->industryId}";
         }
         if ($params->dateFrom) {
             $filters[] = "start_date >= {$params->dateFrom}";

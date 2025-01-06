@@ -23,7 +23,8 @@ class Series extends Model
 
         static::saved(function () {
             Cache::forget(CacheKeys::ACTIVE_SERIES->value);
-            Artisan::call('nextjs:revalidate');
+            Artisan::queue('nextjs:revalidate');
         });
     }
 }
+

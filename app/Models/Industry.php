@@ -8,14 +8,17 @@ use Illuminate\Support\Facades\Cache;
 use App\Enums\CacheKeys;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Industry extends Model
 {
     protected $fillable = ['title', 'sort_order', 'slug'];
 
-    public function events(): HasMany
+    protected $touches = ['events'];
+
+    public function events(): BelongsToMany
     {
-        return $this->hasMany(Event::class);
+        return $this->belongsToMany(Event::class);
     }
 
     public static function boot()
@@ -24,12 +27,12 @@ class Industry extends Model
 
         static::saved(function () {
             Cache::forget(CacheKeys::ACTIVE_INDUSTRIES->value);
-            Artisan::call('nextjs:revalidate');
+            Artisan::queue('nextjs:revalidate');
         });
 
         static::deleted(function () {
             Cache::forget(CacheKeys::ACTIVE_INDUSTRIES->value);
-            Artisan::call('nextjs:revalidate');
+            Artisan::queue('nextjs:revalidate');
         });
 
         static::created(function (Industry $industry) {

@@ -48,6 +48,7 @@ class EventController extends Controller
         $event->load([
             'city',
             'industry',
+            'industries',
             'media',
             'metadata',
             'tariffs',

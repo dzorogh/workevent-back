@@ -43,7 +43,7 @@ class Preset extends Model implements HasMetadataContract
         static::saved(function () {
             Cache::forget(CacheKeys::ACTIVE_PRESETS->value);
             Cache::forget(CacheKeys::ACTIVE_PRESETS_SLUGS->value);
-            Artisan::call('nextjs:revalidate');
+            Artisan::queue('nextjs:revalidate');
         });
     }
 }

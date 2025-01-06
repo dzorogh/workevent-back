@@ -13,19 +13,15 @@ class IndustryController extends Controller
 {
     /**
      * Industries
-     * 
+     *
      * Array of `IndustryResource`
-     * 
+     *
      * @response array{data: IndustryResource[]}
      */
     public function index()
     {
         return Cache::remember(CacheKeys::ACTIVE_INDUSTRIES->value, 3600, function () {
             $industries = Industry::query()
-                ->whereHas('events', function ($query) {
-                    $query->active(); 
-                })
-                ->withCount('events')
                 ->orderBy('sort_order')
                 ->get();
 
@@ -35,7 +31,7 @@ class IndustryController extends Controller
 
     /**
      * Industry
-     * 
+     *
      * @response IndustryResource
      */
     public function show(Industry $industry)
@@ -45,13 +41,13 @@ class IndustryController extends Controller
 
    /**
      * Preset Slugs
-     * 
+     *
      * Array of preset slugs
-     * 
+     *
      * @response array{data: SlugResource[]}
      */
     public function allSlugs()
-    {   
+    {
         return Cache::remember(CacheKeys::INDUSTRIES_SLUGS->value, 3600, function () {
             $industries = Industry::pluck('slug');
 

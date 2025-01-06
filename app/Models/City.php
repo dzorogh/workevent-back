@@ -23,7 +23,7 @@ class City extends Model
 
         static::saved(function () {
             Cache::forget(CacheKeys::ACTIVE_CITIES->value);
-            Artisan::call('nextjs:revalidate');
+            Artisan::queue('nextjs:revalidate');
         });
     }
 }
