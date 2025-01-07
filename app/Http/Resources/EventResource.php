@@ -38,6 +38,7 @@ class EventResource extends JsonResource
             'city' => CityResource::make($this->whenLoaded('city')),
             'industry_id' => $this->resource->industry_id,
             'industry' => CityResource::make($this->whenLoaded('industry')),
+            'industries' => IndustryResource::collection($this->whenLoaded('industries')),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'metadata' => MetadataResource::make($this->whenLoaded('metadata')),
             'tariffs' => TariffResource::collection($this->whenLoaded('tariffs')),
