@@ -16,10 +16,11 @@ use Laravel\Scout\Searchable;
 use App\Traits\HasMetadata;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 
 class Event extends Model implements HasMedia, HasMetadataContract
 {
-    use InteractsWithMedia, Searchable, HasMetadata, SoftDeletes;
+    use InteractsWithMedia, Searchable, HasMetadata, SoftDeletes, HasTimestamps;
 
     protected $fillable = [
         'title',

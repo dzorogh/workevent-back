@@ -83,6 +83,8 @@ class EventSearchService
     {
         $filters = [];
 
+        $filters[] = "__soft_deleted = 0";
+
         if ($params->format) {
             $filters[] = "format = '{$params->format}'";
         }
