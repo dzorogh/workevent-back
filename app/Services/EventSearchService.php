@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Laravel\Scout\Builder;
 use App\DTOs\EventSearchParameters;
 use App\DTOs\EventSearchResult;
 use App\DTOs\PaginatorMetaDTO;
@@ -51,7 +52,7 @@ class EventSearchService
         );
     }
 
-    private function buildSearchQuery(EventSearchParameters $params): \Laravel\Scout\Builder
+    private function buildSearchQuery(EventSearchParameters $params): Builder
     {
         return Event::search($params->query, function (Indexes $meiliSearch, ?string $query, array $options) use ($params) {
             $filter = $this->buildFilters($params);

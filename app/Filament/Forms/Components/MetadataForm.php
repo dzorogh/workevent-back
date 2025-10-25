@@ -2,6 +2,11 @@
 
 namespace App\Filament\Forms\Components;
 
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms;
 
 class MetadataForm
@@ -9,22 +14,22 @@ class MetadataForm
     public static function make(): array
     {
         return [
-            Forms\Components\Section::make('SEO')
+            Section::make('SEO')
                 ->schema([
-                    Forms\Components\TextInput::make('title')
+                    TextInput::make('title')
                         ->label('Meta Title'),
-                    Forms\Components\TextInput::make('h1')
+                    TextInput::make('h1')
                         ->label('H1 заголовок'),
-                    Forms\Components\Textarea::make('description')
+                    Textarea::make('description')
                         ->label('Meta Description'),
-                    Forms\Components\TextInput::make('keywords')
+                    TextInput::make('keywords')
                         ->label('Meta Keywords')
                         ->maxLength(255),
-                    Forms\Components\TextInput::make('canonical_url')
+                    TextInput::make('canonical_url')
                         ->label('Canonical URL')
                         ->url()
                         ->maxLength(255),
-                    Forms\Components\Select::make('robots')
+                    Select::make('robots')
                         ->label('Robots')
                         ->options([
                             'index,follow' => 'Index, Follow',
@@ -36,14 +41,14 @@ class MetadataForm
                 ])
                 ->columnSpan(['lg' => 2]),
 
-            Forms\Components\Section::make('Open Graph')
+            Section::make('Open Graph')
                 ->schema([
-                    Forms\Components\TextInput::make('og_title')
+                    TextInput::make('og_title')
                         ->label('Title')
                         ->maxLength(255),
-                    Forms\Components\Textarea::make('og_description')
+                    Textarea::make('og_description')
                         ->label('Description'),
-                    Forms\Components\Select::make('og_type')
+                    Select::make('og_type')
                         ->label('Type')
                         ->options([
                             'website' => 'Website',
@@ -51,17 +56,17 @@ class MetadataForm
                             'product' => 'Product',
                         ])
                         ->default('website'),
-                    Forms\Components\FileUpload::make('og_image')
+                    FileUpload::make('og_image')
                         ->label('Image')
                         ->image()
                         ->imageResizeMode('cover')
                         ->imageCropAspectRatio('16:9'),
-                    Forms\Components\TextInput::make('og_url')
+                    TextInput::make('og_url')
                         ->label('URL')
                         ->url(),
-                    Forms\Components\TextInput::make('og_site_name')
+                    TextInput::make('og_site_name')
                         ->label('Site Name'),
-                    Forms\Components\Select::make('og_locale')
+                    Select::make('og_locale')
                         ->label('Locale')
                         ->options([
                             'ru_RU' => 'Русский',
@@ -71,27 +76,27 @@ class MetadataForm
                 ])
                 ->columnSpan(['lg' => 2]),
 
-            Forms\Components\Section::make('Twitter Card')
+            Section::make('Twitter Card')
                 ->schema([
-                    Forms\Components\Select::make('tw_card')
+                    Select::make('tw_card')
                         ->label('Card Type')
                         ->options([
                             'summary' => 'Summary',
                             'summary_large_image' => 'Summary Large Image',
                         ])
                         ->default('summary_large_image'),
-                    Forms\Components\TextInput::make('tw_title')
+                    TextInput::make('tw_title')
                         ->label('Title'),
-                    Forms\Components\Textarea::make('tw_description')
+                    Textarea::make('tw_description')
                         ->label('Description'),
-                    Forms\Components\FileUpload::make('tw_image')
+                    FileUpload::make('tw_image')
                         ->label('Image')
                         ->image()
                         ->imageResizeMode('cover')
                         ->imageCropAspectRatio('2:1'),
-                    Forms\Components\TextInput::make('tw_site')
+                    TextInput::make('tw_site')
                         ->label('Site (@username)'),
-                    Forms\Components\TextInput::make('tw_creator')
+                    TextInput::make('tw_creator')
                         ->label('Creator (@username)'),
                 ])
                 ->columnSpan(['lg' => 2])

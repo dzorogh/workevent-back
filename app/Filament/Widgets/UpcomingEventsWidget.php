@@ -2,6 +2,8 @@
 
 namespace App\Filament\Widgets;
 
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\Action;
 use App\Models\Event;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -23,28 +25,28 @@ class UpcomingEventsWidget extends BaseWidget
             )
             ->heading(__('filament-widgets.upcoming-events.heading'))
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->label(__('filament-widgets.upcoming-events.columns.title'))
                     ->searchable()
                     ->limit(50),
 
-                Tables\Columns\TextColumn::make('start_date')
+                TextColumn::make('start_date')
                     ->label(__('filament-widgets.upcoming-events.columns.start_date'))
                     ->date()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('format')
+                TextColumn::make('format')
                     ->label(__('filament-widgets.upcoming-events.columns.format'))
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('city.title')
+                TextColumn::make('city.title')
                     ->label(__('filament-widgets.upcoming-events.columns.city')),
 
-                Tables\Columns\TextColumn::make('industry.title')
+                TextColumn::make('industry.title')
                     ->label(__('filament-widgets.upcoming-events.columns.industry')),
             ])
-            ->actions([
-                Tables\Actions\Action::make('view')
+            ->recordActions([
+                Action::make('view')
                     ->label(__('filament-widgets.actions.view'))
                     ->url(fn (Event $record): string => route('filament.admin.resources.events.edit', $record))
                     ->icon('heroicon-m-eye'),

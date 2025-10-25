@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Models\Metadata;
 use App\Contracts\HasMetadataContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MetadataRequest;
@@ -27,7 +28,7 @@ class MetadataController extends Controller
         /** @var Model&HasMetadataContract $entity */
         $entity = $modelClass::findOrFail($request->validated('id'))->load('metadata');
 
-        $metadata = $entity->metadata ?? new \App\Models\Metadata();
+        $metadata = $entity->metadata ?? new Metadata();
 
         return MetadataResource::make($metadata);
     }

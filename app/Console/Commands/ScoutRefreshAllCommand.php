@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Support\Collection;
 use Artisan;
 use File;
 use Illuminate\Console\Command;
@@ -103,7 +104,7 @@ class ScoutRefreshAllCommand extends Command
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     protected function getFilesFromDirectory()
     {

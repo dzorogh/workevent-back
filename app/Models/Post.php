@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,7 @@ class Post extends Model implements HasMedia
 
         self::creating(function ($model) {
             if (!Auth::check()) {
-                throw new \Exception('User must be authenticated to create a post.');
+                throw new Exception('User must be authenticated to create a post.');
             }
 
             $model->user_id = Auth::id();

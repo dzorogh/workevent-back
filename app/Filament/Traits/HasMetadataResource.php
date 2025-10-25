@@ -2,6 +2,10 @@
 
 namespace App\Filament\Traits;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Group;
 use Filament\Forms;
 use App\Filament\Forms\Components\MetadataForm;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,17 +17,17 @@ trait HasMetadataResource
         return parent::getEloquentQuery()->with('metadata');
     }
 
-    public static function form(Forms\Form $form): Forms\Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Tabs::make('Tabs')
+        return $schema
+            ->components([
+                Tabs::make('Tabs')
                     ->tabs([
-                        Forms\Components\Tabs\Tab::make(__('filament.tabs.main'))
+                        Tab::make(__('filament.tabs.main'))
                             ->schema(static::getResourceFormSchema()),
-                        Forms\Components\Tabs\Tab::make(__('filament.tabs.metadata'))
+                        Tab::make(__('filament.tabs.metadata'))
                             ->schema([
-                                Forms\Components\Group::make(MetadataForm::make())
+                                Group::make(MetadataForm::make())
                                     ->relationship('metadata')
                             ]),
                     ])

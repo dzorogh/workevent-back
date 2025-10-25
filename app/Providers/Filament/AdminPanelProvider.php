@@ -2,21 +2,20 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Widgets\DashboardStatsOverview;
-use App\Filament\Widgets\RecentCompaniesWidget;
-use App\Filament\Widgets\UpcomingEventsWidget;
 use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages;
+use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Widgets\AccountWidget;
+use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
@@ -30,18 +29,17 @@ class AdminPanelProvider extends PanelProvider
             ->path('/')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Indigo,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                DashboardStatsOverview::class,
-                UpcomingEventsWidget::class,
-                RecentCompaniesWidget::class,
+                AccountWidget::class,
+                FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -64,20 +62,7 @@ class AdminPanelProvider extends PanelProvider
 
             ])
 
-            ->font('Inter')
-            ->colors([
-                'danger' => "#EB2424",
-                'gray' => "#7E7E98",
-                'primary' => "#494BE2",
-                'info' => "#494BE2",
-                'success' => "#DEF967",
-                'warning' => Color::Orange,
-            ])
-
             ->brandLogo(asset('images/admin-logo.svg'))
-            ->favicon(asset('images/favicon.png'))
-
-            ->viteTheme('resources/css/filament/admin/theme.css')
-            ;
+            ->favicon(asset('images/favicon.png'));
     }
 }

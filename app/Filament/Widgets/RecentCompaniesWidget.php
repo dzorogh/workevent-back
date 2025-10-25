@@ -2,6 +2,8 @@
 
 namespace App\Filament\Widgets;
 
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\Action;
 use App\Models\Company;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -23,25 +25,25 @@ class RecentCompaniesWidget extends BaseWidget
             )
             ->heading(__('filament-widgets.recent-companies.heading'))
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->label(__('filament-widgets.recent-companies.columns.name'))
                     ->searchable(),
                     
-                Tables\Columns\TextColumn::make('inn')
+                TextColumn::make('inn')
                     ->label(__('filament-widgets.recent-companies.columns.inn'))
                     ->searchable(),
                     
-                Tables\Columns\TextColumn::make('events_count')
+                TextColumn::make('events_count')
                     ->label(__('filament-widgets.recent-companies.columns.events'))
                     ->sortable(),
                     
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label(__('filament-widgets.recent-companies.columns.created_at'))
                     ->dateTime()
                     ->sortable(),
             ])
-            ->actions([
-                Tables\Actions\Action::make('view')
+            ->recordActions([
+                Action::make('view')
                     ->label(__('filament-widgets.actions.view'))
                     ->url(fn (Company $record): string => route('filament.admin.resources.companies.edit', $record))
                     ->icon('heroicon-m-eye'),

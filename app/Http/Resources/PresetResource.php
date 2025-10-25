@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property-read \App\Models\Preset $resource
+ * @property-read Preset $resource
  */
 class PresetResource extends JsonResource
 {
