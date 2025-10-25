@@ -37,8 +37,7 @@ class EventController extends Controller
 
     public function allIds()
     {
-        $ids = Event::whereDate('start_date', '>=', now()->format('Y-m-d'))
-            ->pluck('id');
+        $ids = Event::pluck('id');
 
         return IdResource::collection($ids);
     }
