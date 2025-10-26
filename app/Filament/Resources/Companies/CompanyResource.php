@@ -139,7 +139,15 @@ class CompanyResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('participation_type')
-                    ->relationship('events', 'participation_type')
+                    ->query(function ($query, array $data) {
+                        if (empty($data['value'])) {
+                            return $query;
+                        }
+
+                        return $query->whereHas('events', function ($eventQuery) use ($data) {
+                            $eventQuery->where('company_event.participation_type', $data['value']);
+                        });
+                    })
                     ->options(ParticipationType::getLabels())
                     ->multiple()
                     ->label(__('filament-resources.companies.fields.participation_type')),

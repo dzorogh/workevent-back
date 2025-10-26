@@ -3,8 +3,8 @@
 return [
     'groups' => [
         'events' => 'Мероприятия',
-        'references' => 'Справочники', 
+        'references' => 'Справочники',
         'participants' => 'Участники',
-
+        'users' => 'Пользователи',
     ],
 ];

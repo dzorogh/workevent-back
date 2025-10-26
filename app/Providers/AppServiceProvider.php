@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\URL;
 use App\Models\Post;
 use App\Models\User;
 use Meilisearch\Client;
+use Kirschbaum\Loop\Facades\Loop;
+use Kirschbaum\Loop\Toolkits;
+use Kirschbaum\Loop\Tools;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,7 +34,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
     }
 
     /**
@@ -45,6 +47,8 @@ class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap($this->morphMap);
 
         Model::preventLazyLoading();
+
+        Loop::toolkit(\Kirschbaum\Loop\Filament\FilamentToolkit::make());
 
     }
 }

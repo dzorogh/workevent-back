@@ -59,7 +59,6 @@ class AdminPanelProvider extends PanelProvider
                 'events' => __('filament-navigation.groups.events'),
                 'references' => __('filament-navigation.groups.references'),
                 'participants' => __('filament-navigation.groups.participants'),
-
             ])
 
             ->brandLogo(asset('images/admin-logo.svg'))

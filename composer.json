@@ -10,6 +10,8 @@
         "filament/filament": "^4.0",
         "filament/spatie-laravel-media-library-plugin": "^3.3",
         "http-interop/http-factory-guzzle": "^1.2",
+        "kirschbaum-development/laravel-loop": "^0.1.8",
+        "kirschbaum-development/laravel-loop-filament": "^0.1.5",
         "laravel/framework": "^12.0",
         "laravel/horizon": "^5.31",
         "laravel/sanctum": "^4.0",
