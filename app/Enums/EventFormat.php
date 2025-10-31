@@ -9,6 +9,7 @@ enum EventFormat: string
     case EXHIBITION = 'exhibition';
     case SEMINAR = 'seminar';
     case WEBINAR = 'webinar';
+    case SUMMIT = 'summit';
 
     public function getLabel(): string
     {
@@ -18,18 +19,17 @@ enum EventFormat: string
             self::EXHIBITION => __('filament-resources.events.formats.exhibition'),
             self::SEMINAR => __('filament-resources.events.formats.seminar'),
             self::WEBINAR => __('filament-resources.events.formats.webinar'),
+            self::SUMMIT => __('filament-resources.events.formats.summit'),
         };
     }
 
     public static function getLabels(): array
     {
-        return [
-            self::FORUM->value => self::FORUM->getLabel(),
-            self::CONFERENCE->value => self::CONFERENCE->getLabel(),
-            self::EXHIBITION->value => self::EXHIBITION->getLabel(),
-            self::SEMINAR->value => self::SEMINAR->getLabel(),
-            self::WEBINAR->value => self::WEBINAR->getLabel(),
-        ];
+        $labels = [];
+        foreach (self::cases() as $case) {
+            $labels[$case->value] = $case->getLabel();
+        }
+        return $labels;
     }
 
     public function getColor(): string
@@ -40,6 +40,8 @@ enum EventFormat: string
             self::EXHIBITION => 'info',
             self::SEMINAR => 'primary',
             self::WEBINAR => 'danger',
+            self::SUMMIT => 'warning',
+            default => 'primary',
         };
     }
-} 
+}

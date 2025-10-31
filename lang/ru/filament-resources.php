@@ -41,6 +41,7 @@ return [
             'exhibition' => 'Выставка',
             'seminar' => 'Семинар',
             'webinar' => 'Вебинар',
+            'summit' => 'Саммит'
         ],
         'actions' => [
             'edit' => [
