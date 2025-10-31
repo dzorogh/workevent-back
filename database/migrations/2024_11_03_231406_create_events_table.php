@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('title');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->enum('format', ['forum', 'conference', 'exhibition', 'seminar', 'webinar']);
+            $table->string('format');
             $table->foreignId('city_id')->nullable()->constrained('cities');
             $table->foreignId('main_industry_id')->constrained('industries');
             $table->timestamps();

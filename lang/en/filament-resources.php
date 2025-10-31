@@ -7,6 +7,14 @@ return [
             // ... existing fields ...
             'website' => 'Website',
         ],
+        'formats' => [
+            'forum' => 'Forum',
+            'conference' => 'Conference',
+            'exhibition' => 'Exhibition',
+            'seminar' => 'Seminar',
+            'webinar' => 'Webinar',
+            'summit' => 'Summit',
+        ],
         'actions' => [
             'edit' => [
                 'title' => 'Edit event ":label"',
@@ -49,4 +57,4 @@ return [
         'created_at' => 'Created at',
         'updated_at' => 'Updated at',
     ],
-]; 
+];
