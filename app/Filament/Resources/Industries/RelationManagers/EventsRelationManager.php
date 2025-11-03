@@ -40,6 +40,7 @@ class EventsRelationManager extends RelationManager
                     ->label('City')
                     ->sortable(),
             ])
+            ->recordUrl(fn (Event $record): string => EventResource::getUrl('edit', ['record' => $record]))
             ->filters([
                 SelectFilter::make('format')
                     ->options([
