@@ -14,7 +14,6 @@
         "ext-intl": "*",
         "ext-opcache": "*",
         "ext-sodium": "*",
-        "ext-dev": "*",
         "ext-curl": "*",
         "ext-imap": "*",
         "ext-mbstring": "*",
