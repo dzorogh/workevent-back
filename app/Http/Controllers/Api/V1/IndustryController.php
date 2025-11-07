@@ -23,6 +23,9 @@ class IndustryController extends Controller
         return Cache::remember(CacheKeys::ACTIVE_INDUSTRIES->value, 3600, function () {
             $industries = Industry::query()
                 ->orderBy('sort_order')
+                ->withCount(['events as future_events_count' => function ($query) {
+                    $query->where('start_date', '>=', now());
+                }])
                 ->get();
 
             return IndustryResource::collection($industries);

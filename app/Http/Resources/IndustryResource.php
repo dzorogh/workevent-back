@@ -13,6 +13,7 @@ class IndustryResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
+            'future_events_count' => $this->whenCounted('future_events_count'),
             'events_count' => $this->whenCounted('events'),
         ];
     }
